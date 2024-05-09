@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34818.151
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeltaDrive.API", "DeltaDrive.API\DeltaDrive.API.csproj", "{37FCA9D0-2F1B-46D6-91D1-681F692FFC46}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6FF57C3F-3972-4282-9E3F-4E796A739AD6} = {6FF57C3F-3972-4282-9E3F-4E796A739AD6}
+		{89AEC2A2-6C72-47B4-A3D0-5B433F64C740} = {89AEC2A2-6C72-47B4-A3D0-5B433F64C740}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeltaDrive.BL", "DeltaDrive.BL\DeltaDrive.BL.csproj", "{89AEC2A2-6C72-47B4-A3D0-5B433F64C740}"
+	ProjectSection(ProjectDependencies) = postProject
+		{487212E2-834A-4B10-A2AA-1373456050B2} = {487212E2-834A-4B10-A2AA-1373456050B2}
+		{5F9ADC3D-0C74-4658-A71D-9D760091DEF5} = {5F9ADC3D-0C74-4658-A71D-9D760091DEF5}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeltaDrive.BL.Contracts", "DeltaDrive.BL.Contracts\DeltaDrive.BL.Contracts.csproj", "{487212E2-834A-4B10-A2AA-1373456050B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeltaDrive.DA", "DeltaDrive.DA\DeltaDrive.DA.csproj", "{6FF57C3F-3972-4282-9E3F-4E796A739AD6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5F9ADC3D-0C74-4658-A71D-9D760091DEF5} = {5F9ADC3D-0C74-4658-A71D-9D760091DEF5}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeltaDrive.DA.Contracts", "DeltaDrive.DA.Contracts\DeltaDrive.DA.Contracts.csproj", "{5F9ADC3D-0C74-4658-A71D-9D760091DEF5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{37FCA9D0-2F1B-46D6-91D1-681F692FFC46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37FCA9D0-2F1B-46D6-91D1-681F692FFC46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37FCA9D0-2F1B-46D6-91D1-681F692FFC46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37FCA9D0-2F1B-46D6-91D1-681F692FFC46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89AEC2A2-6C72-47B4-A3D0-5B433F64C740}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89AEC2A2-6C72-47B4-A3D0-5B433F64C740}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89AEC2A2-6C72-47B4-A3D0-5B433F64C740}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89AEC2A2-6C72-47B4-A3D0-5B433F64C740}.Release|Any CPU.Build.0 = Release|Any CPU
+		{487212E2-834A-4B10-A2AA-1373456050B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{487212E2-834A-4B10-A2AA-1373456050B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{487212E2-834A-4B10-A2AA-1373456050B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{487212E2-834A-4B10-A2AA-1373456050B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FF57C3F-3972-4282-9E3F-4E796A739AD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FF57C3F-3972-4282-9E3F-4E796A739AD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FF57C3F-3972-4282-9E3F-4E796A739AD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FF57C3F-3972-4282-9E3F-4E796A739AD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F9ADC3D-0C74-4658-A71D-9D760091DEF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F9ADC3D-0C74-4658-A71D-9D760091DEF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F9ADC3D-0C74-4658-A71D-9D760091DEF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F9ADC3D-0C74-4658-A71D-9D760091DEF5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FF706B01-70A0-4B46-A81A-A3A98AA78254}
+	EndGlobalSection
+EndGlobal
