@@ -15,14 +15,9 @@ export class LoginComponent {
   authResponse: AuthenticationResponse = {};
 
   constructor(
-    private location: Location,
     private router: Router,
     private authService: AuthenticationService
   ) {}
-
-  goBack() {
-    this.location.back();
-  }
 
   login() {
     this.authService.login(this.authRequest).subscribe({
@@ -30,11 +25,11 @@ export class LoginComponent {
         if (response.isSuccess) {
           this.router.navigate(['/']);
         } else {
-          alert('Login failed');
+          alert('Login failed!');
         }
       },
       error: (err) => {
-        alert('An error occurred');
+        alert('Login failed!');
         console.error(err);
       },
     });

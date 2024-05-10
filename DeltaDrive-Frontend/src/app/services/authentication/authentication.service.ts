@@ -60,4 +60,10 @@ export class AuthenticationService {
   get isLoggedIn() {
     return this.loggedIn.asObservable();
   }
+
+  testJWT() {
+    return this.http.get<Result<any>>(
+      `${environment.apiHost}/Authentication/testJWT`
+    );
+  }
 }

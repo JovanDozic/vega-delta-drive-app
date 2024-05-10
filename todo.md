@@ -11,9 +11,9 @@
 ## Korisnici
 
 - [ ] Kreirati pocetnu stranicu na kojoj ce vec biti dostupne sve funkcionalnosti
-- [ ] Kreirati registraciju korisnika
-- [ ] Kreirati login korisnika
-- [ ] Kreirati logout korisnika
+- [x] Kreirati registraciju korisnika
+- [x] Kreirati login korisnika
+- [x] Kreirati logout korisnika
 
 ## Funkcionalnosti
 

@@ -34,11 +34,11 @@ namespace DeltaDrive.API.Controllers
             return await _authService.RegisterAsync(request);
         }
 
-        [HttpGet]
+        [HttpGet("testJWT")]
         [Authorize]
-        public IActionResult Get()
+        public Result Get()
         {
-            return Ok("AuthenticationController");
+            return Result.Ok();
         }
     }
 }

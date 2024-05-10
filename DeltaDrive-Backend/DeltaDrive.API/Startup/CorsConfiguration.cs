@@ -1,6 +1,4 @@
-﻿using Microsoft.Net.Http.Headers;
-
-namespace DeltaDrive.API.Startup
+﻿namespace DeltaDrive.API.Startup
 {
     public static class CorsConfiguration
     {
@@ -12,8 +10,8 @@ namespace DeltaDrive.API.Startup
                     builder =>
                     {
                         builder.WithOrigins("http://localhost:4200")
-                        .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization, "access_token")
-                        .WithMethods("GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS");
+                               .AllowAnyHeader()
+                               .AllowAnyMethod();
                     });
             });
 

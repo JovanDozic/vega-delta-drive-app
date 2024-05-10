@@ -13,14 +13,9 @@ export class RegistrationComponent {
   regRequest: RegisterRequest = {};
 
   constructor(
-    private location: Location,
     private router: Router,
     private authService: AuthenticationService
   ) {}
-
-  goBack() {
-    this.location.back();
-  }
 
   register() {
     // YYYY-MM-dd

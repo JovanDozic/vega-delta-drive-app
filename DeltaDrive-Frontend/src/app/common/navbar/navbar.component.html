@@ -13,6 +13,9 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" routerLink="/">Home</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink="/vehicle-booking/">Book a Vehicle</a>
+                </li>
                 <!-- <li class="nav-item">
                     <a class="nav-link" href="#">Link</a>
                 </li>
@@ -42,7 +45,7 @@
 
             <div class="text-end">
                 <button type="button" class="btn btn-outline-secondary me-3" routerLink="/login/">Login</button>
-                <button type="button" class="btn btn-primary me-3" routerLink="/register/">Register</button>
+                <button type="button" class="btn btn-outline-primary me-3" routerLink="/register/">Register</button>
                 <button class="btn btn-outline-secondary" (click)="logout()" *ngIf="isLoggedIn">Logout</button>
             </div>
         </div>

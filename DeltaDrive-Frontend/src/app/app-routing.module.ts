@@ -3,14 +3,22 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './authentication/login/login.component';
 import { RegistrationComponent } from './authentication/registration/registration.component';
+import { VehicleBookingComponent } from './vehicle-booking/vehicle-booking.component';
+import { authGuard } from './auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' }, // TODO: canActivate: [authenticationGuard]
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
 
   { path: 'home', component: HomeComponent },
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent },
+
+  {
+    path: 'vehicle-booking',
+    component: VehicleBookingComponent,
+    canActivate: [authGuard],
+  },
 ];
 
 @NgModule({
