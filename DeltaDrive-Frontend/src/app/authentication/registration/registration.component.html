@@ -1,2 +1,48 @@
-<p>registration works!</p>
-<a routerLink="/home/" class="btn btn-">Back to Home</a>
+<h2 class="text-center">Register</h2>
+
+<div class="row display-flex justify-content-center align-items-center">
+
+    <div style="width: 50vh;">
+
+        <form class="mb-5" (ngSubmit)="register()">
+
+            <div class="mb-2">
+                <label for="email" class="form-label">Email</label>
+                <input name="email" type="text" class="form-control" id="email" aria-describedby="emailHelp"
+                    placeholder="Enter email" [(ngModel)]="regRequest.email">
+            </div>
+
+            <div class="mb-2">
+                <label for="firstName" class="form-label">First name</label>
+                <input name="firstName" type="text" class="form-control" id="firstName" aria-describedby="firstNameHelp"
+                    placeholder="Enter first name" [(ngModel)]="regRequest.firstName">
+            </div>
+
+            <div class="mb-2">
+                <label for="lastName" class="form-label">Last name</label>
+                <input name="lastName" type="text" class="form-control" id="lastName" aria-describedby="lastNameHelp"
+                    placeholder="Enter last name" [(ngModel)]="regRequest.lastName">
+            </div>
+
+            <div class="mb-2">
+                <label for="birthday" class="form-label">Birthday</label>
+                <input name="birthday" type="date" class="form-control" id="birthday" aria-describedby="birthdayHelp"
+                    placeholder="Enter birthday" [(ngModel)]="regRequest.birthday">
+            </div>
+
+            <div class="mb-2">
+                <label for="password" class="form-label">Password</label>
+                <input name="password" type="password" class="form-control" id="password" placeholder="Enter Password"
+                    [(ngModel)]="regRequest.password">
+            </div>
+
+            <div class="row my-3">
+                <button type="submit" class="btn btn-outline-primary mt-3">Register</button>
+            </div>
+
+        </form>
+
+        <button (click)="goBack()" class="btn btn-link mt-3">Go back</button>
+
+    </div>
+</div>

@@ -2,7 +2,8 @@
 
 <div class="row display-flex justify-content-center align-items-center">
 
-    <div class="col-4">
+    <div style="width: 50vh;">
+
         <form class="mb-5" (ngSubmit)="login()">
 
             <div class="mb-2">
@@ -19,10 +20,12 @@
 
             <div class="row my-3">
                 <button type="submit" class="btn btn-outline-success mt-3">Login</button>
-                <a routerLink="/home/" class="btn btn-link mt-3">Back to Home</a>
             </div>
 
         </form>
 
+        <button (click)="goBack()" class="btn btn-link mt-3">Go back</button>
+
     </div>
+
 </div>

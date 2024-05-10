@@ -8,12 +8,19 @@ import { AuthenticationService } from '../services/authentication/authentication
 })
 export class HomeComponent {
   loginMessage: string = '';
+  isLoggedIn: boolean = false;
 
   constructor(private authService: AuthenticationService) {
     this.authService.isLoggedIn.subscribe((isLoggedIn) => {
+      this.isLoggedIn = isLoggedIn;
       this.loginMessage = isLoggedIn
         ? 'You are logged in'
         : 'You are not logged in';
     });
+  }
+
+  logout() {
+    this.authService.logout();
+    location.reload();
   }
 }

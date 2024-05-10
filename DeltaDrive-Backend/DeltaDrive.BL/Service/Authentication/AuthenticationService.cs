@@ -24,7 +24,7 @@ namespace DeltaDrive.BL.Service.Authentication
             });
         }
 
-        public async Task<Result<RegisterResponseDto>> RegisterAsync(RegisterRequestDto request)
+        public async Task<Result> RegisterAsync(RegisterRequestDto request)
         {
             User user = new()
             {

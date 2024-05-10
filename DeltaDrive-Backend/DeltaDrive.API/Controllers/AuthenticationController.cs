@@ -29,7 +29,7 @@ namespace DeltaDrive.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<Result<RegisterResponseDto>> RegisterAsync([FromBody] RegisterRequestDto request)
+        public async Task<Result> RegisterAsync([FromBody] RegisterRequestDto request)
         {
             return await _authService.RegisterAsync(request);
         }

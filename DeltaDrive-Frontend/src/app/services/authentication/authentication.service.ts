@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { Result } from '../../model/common/result.model';
 import { AuthenticationResponse } from '../../model/authentication/authentication-response.model';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { RegisterRequest } from '../../model/authentication/register-request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -32,8 +33,24 @@ export class AuthenticationService {
       );
   }
 
-  register() {
-    // TODO: Impl.
+  register(regRequest: RegisterRequest) {
+    return this.http
+      .post<Result<any>>(
+        `${environment.apiHost}/Authentication/register`,
+        regRequest
+      )
+      .pipe(
+        tap((response) => {
+          // if (response.isSuccess) {
+          //   this.loggedIn.next(true);
+          // }
+        })
+      );
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.loggedIn.next(false);
   }
 
   private hasToken(): boolean {

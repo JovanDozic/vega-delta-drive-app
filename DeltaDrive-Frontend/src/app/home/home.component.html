@@ -1,8 +1,15 @@
-<p>home works!</p>
+<div class="row display-flex justify-content-center align-items-center">
 
-<div class="row">
-    <a routerLink="/login/" class="btn btn-outline-secondary">Login</a>
-    <a routerLink="/register/" class="btn btn-outline-primary">Register</a>
+    <div style="width: 50vh;">
+
+        <div class=" row">
+            <a routerLink="/login/" class="btn btn-outline-secondary">Login</a>
+            <a routerLink="/register/" class="btn btn-outline-primary mt-3">Register</a>
+            <a class="btn btn-outline-danger mt-3" (click)="logout()" *ngIf="isLoggedIn">Logout</a>
+            <p class="mt-5"><b>Account status</b>: {{ loginMessage }}</p>
+
+        </div>
+
+    </div>
+
 </div>
-
-<p><b>Account status</b>: {{ loginMessage }}</p>
