@@ -8,6 +8,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { LoginComponent } from './authentication/login/login.component';
 import { RegistrationComponent } from './authentication/registration/registration.component';
 import { FormsModule } from '@angular/forms';
+import { NavbarComponent } from './common/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { FormsModule } from '@angular/forms';
     HomeComponent,
     LoginComponent,
     RegistrationComponent,
+    NavbarComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [provideHttpClient(withFetch())],
