@@ -1,6 +1,7 @@
 ﻿using DeltaDrive.BL.Contracts.DTO.Authentication;
 using DeltaDrive.BL.Contracts.IService.Authentication;
 using FluentResults;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeltaDrive.API.Controllers
@@ -34,7 +35,7 @@ namespace DeltaDrive.API.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Policy = "adminPolicy")]
+        [Authorize]
         public IActionResult Get()
         {
             return Ok("AuthenticationController");

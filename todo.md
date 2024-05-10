@@ -2,9 +2,9 @@
 
 ## Priprema
 
-- [ ] Definisati i pripremiti sve tehnologije koje se koriste: backend, frontend i baza.
+- [x] Definisati i pripremiti sve tehnologije koje se koriste: backend, frontend i baza.
 - [ ] Kreirati model baze podataka.
-- [ ] Pripremiti n-layer za backend.
+- [x] Pripremiti n-layer za backend.
 - [ ] Kreiraj i pokreni migracije i popuni testne podatke.
 - [ ] Pripremiti strukturu za frontend.
 
