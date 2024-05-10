@@ -11,7 +11,7 @@ namespace DeltaDrive.API.Startup
                 options.AddPolicy(name: corsPolicy,
                     builder =>
                     {
-                        builder.WithOrigins(ParseCorsOrigins())
+                        builder.WithOrigins("http://localhost:4200")
                         .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization, "access_token")
                         .WithMethods("GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS");
                     });
@@ -23,11 +23,11 @@ namespace DeltaDrive.API.Startup
         private static string[] ParseCorsOrigins()
         {
             var corsOrigins = new[] { "http://localhost:4200" };
-            var corsOriginsPath = Environment.GetEnvironmentVariable("Cors:Origins");
-            if (File.Exists(corsOriginsPath))
-            {
-                corsOrigins = File.ReadAllLines(corsOriginsPath);
-            }
+            //var corsOriginsPath = Environment.GetEnvironmentVariable("Cors:Origins");
+            //if (File.Exists(corsOriginsPath))
+            //{
+            //    corsOrigins = File.ReadAllLines(corsOriginsPath);
+            //}
             return corsOrigins;
         }
     }

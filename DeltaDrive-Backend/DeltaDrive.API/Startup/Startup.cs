@@ -39,6 +39,7 @@ namespace DeltaDrive.API.Startup
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseCors("_corsPolicy");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

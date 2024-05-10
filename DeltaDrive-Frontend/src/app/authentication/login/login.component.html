@@ -1,2 +1,28 @@
-<p>login works!</p>
-<a routerLink="/home/" class="btn btn-link">Back to Home</a>
+<h2 class="text-center">Login</h2>
+
+<div class="row display-flex justify-content-center align-items-center">
+
+    <div class="col-4">
+        <form class="mb-5" (ngSubmit)="login()">
+
+            <div class="mb-2">
+                <label for="email" class="form-label">Email</label>
+                <input name="email" type="text" class="form-control" id="email" aria-describedby="emailHelp"
+                    placeholder="Enter email" [(ngModel)]="authRequest.email">
+            </div>
+
+            <div class="mb-2">
+                <label for="password" class="form-label">Password</label>
+                <input name="password" type="password" class="form-control" id="password" placeholder="Enter Password"
+                    [(ngModel)]="authRequest.password">
+            </div>
+
+            <div class="row my-3">
+                <button type="submit" class="btn btn-outline-success mt-3">Login</button>
+                <a routerLink="/home/" class="btn btn-link mt-3">Back to Home</a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
