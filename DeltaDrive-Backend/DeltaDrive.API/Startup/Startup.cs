@@ -11,13 +11,15 @@ namespace DeltaDrive.API.Startup
         {
             var connectionString = _config.GetConnectionString("LocalhostConnectionString");
 
+            //services.AddControllers();
+
             services.AddControllers();
 
             services.AddEndpointsApiExplorer();
 
             services.ConfigureSwagger();
 
-            services.AddDbContext<DataContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+            services.AddDbContext<DataContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), x => x.UseNetTopologySuite()));
 
             services.ConfigureAuthentication(_config); // JWT Authentication and Authorization policies
 

@@ -25,9 +25,9 @@ namespace DeltaDrive.DA.Repository
             _context.Set<TEntity>().Remove(entity);
         }
 
-        public Task<IEnumerable<TEntity>> GetAllAsync()
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Set<TEntity>().ToListAsync();
         }
 
         public async Task<IEnumerable<TEntity>> GetAllPagedAsync(int page, int pageSize)

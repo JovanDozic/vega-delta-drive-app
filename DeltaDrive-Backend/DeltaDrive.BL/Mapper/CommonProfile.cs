@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DeltaDrive.BL.Contracts.DTO;
 using DeltaDrive.DA.Contracts.Model;
+using NetTopologySuite.Geometries;
 
 namespace DeltaDrive.BL.Mapper
 {
@@ -9,6 +10,8 @@ namespace DeltaDrive.BL.Mapper
         public CommonProfile()
         {
             CreateMap<UserDto, User>().ReverseMap();
+            CreateMap<VehicleDto, Vehicle>().ReverseMap();
+            CreateMap<PointDto, Point>().ReverseMap();
         }
     }
 }

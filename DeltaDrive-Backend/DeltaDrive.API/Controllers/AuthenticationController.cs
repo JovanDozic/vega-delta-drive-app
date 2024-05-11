@@ -8,14 +8,9 @@ namespace DeltaDrive.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthenticationController : ControllerBase
+    public class AuthenticationController(IAuthenticationService authService) : ControllerBase
     {
-        private readonly IAuthenticationService _authService;
-
-        public AuthenticationController(IAuthenticationService authService)
-        {
-            _authService = authService;
-        }
+        private readonly IAuthenticationService _authService = authService;
 
         [HttpPost("login")]
         public async Task<Result<AuthenticationResponseDto>> Login([FromBody] AuthenticationRequestDto request)
