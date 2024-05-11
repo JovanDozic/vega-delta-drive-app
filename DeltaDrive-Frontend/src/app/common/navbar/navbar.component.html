@@ -44,8 +44,10 @@
             </form> -->
 
             <div class="text-end">
-                <button type="button" class="btn btn-outline-secondary me-3" routerLink="/login/">Login</button>
-                <button type="button" class="btn btn-outline-primary me-3" routerLink="/register/">Register</button>
+                <button type="button" class="btn btn-outline-secondary me-3" routerLink="/login/"
+                    *ngIf="!isLoggedIn">Login</button>
+                <button type="button" class="btn btn-outline-primary me-3" routerLink="/register/"
+                    *ngIf="!isLoggedIn">Register</button>
                 <button class="btn btn-outline-secondary" (click)="logout()" *ngIf="isLoggedIn">Logout</button>
             </div>
         </div>

@@ -23,10 +23,4 @@ export class HomeComponent {
     this.authService.logout();
     location.reload();
   }
-
-  testJWT() {
-    this.authService.testJWT().subscribe((response) => {
-      console.log(response);
-    });
-  }
 }

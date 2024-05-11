@@ -34,10 +34,19 @@ namespace DeltaDrive.BL.Service.Authentication
                 Birthday = request.Birthday,
                 Password = request.Password
             };
-            user.SecurePassword();
 
             // TODO: Data validation goes here (unique email, password complexity, etc.)
+            if (await _unitOfWork.UserRepo().ExistByEmail(user.Email))
+            {
+                return Result.Fail(FailureCode.NonUniqueEmail);
+            }
 
+            if (!user.Validate())
+            {
+                return Result.Fail(FailureCode.InvalidArgument);
+            }
+
+            user.SecurePassword();
             await _unitOfWork.UserRepo().AddAsync(user);
             await _unitOfWork.SaveAsync();
 

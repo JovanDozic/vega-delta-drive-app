@@ -18,5 +18,11 @@ namespace DeltaDrive.DA.Repository
                            .FirstOrDefaultAsync(u => u.Email == email)
                            ?? throw new Exception("User not found.");
         }
+
+        public async Task<bool> ExistByEmail(string email)
+        {
+            return await _context.Set<User>()
+                                 .FirstOrDefaultAsync(u => u.Email == email) is not null;
+        }
     }
 }

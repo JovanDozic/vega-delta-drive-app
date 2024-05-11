@@ -5,5 +5,6 @@ namespace DeltaDrive.DA.Contracts.IRepository
     public interface IUserRepo : IRepository<User>
     {
         public Task<User?> GetByEmailAsync(string email);
+        public Task<bool> ExistByEmail(string email);
     }
 }

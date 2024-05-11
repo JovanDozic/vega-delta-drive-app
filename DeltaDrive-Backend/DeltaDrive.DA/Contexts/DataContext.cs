@@ -16,6 +16,10 @@ namespace DeltaDrive.DA.Contexts
             //    .HasOne(user => user.Role)
             //    .WithMany()
             //    .HasForeignKey(user => user.RoleId);
+
+            modelBuilder.Entity<User>()
+                .HasIndex(user => user.Email)
+                .IsUnique();
         }
     }
 }

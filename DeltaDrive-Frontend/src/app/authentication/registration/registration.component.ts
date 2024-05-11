@@ -24,7 +24,7 @@ export class RegistrationComponent {
         alert('Account created successfully!');
         this.router.navigate(['/']);
       } else {
-        alert('Failed to create account!');
+        alert('Failed to create account: ' + response.reasons?.at(0)?.message);
       }
     });
   }
