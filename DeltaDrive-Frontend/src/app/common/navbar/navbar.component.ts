@@ -7,15 +7,16 @@ import { AuthenticationService } from '../../services/authentication/authenticat
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
-  loginMessage: string = '';
   isLoggedIn: boolean = false;
+  currentUserFirstName?: string = '';
 
   constructor(private authService: AuthenticationService) {
     this.authService.isLoggedIn.subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
-      this.loginMessage = isLoggedIn
-        ? 'You are logged in'
-        : 'You are not logged in';
+      if (this.isLoggedIn) {
+        // this.currentUserFirstName = this.authService.currentUserFirstName;
+        this.currentUserFirstName = this.authService.getUserFirstName();
+      }
     });
   }
 

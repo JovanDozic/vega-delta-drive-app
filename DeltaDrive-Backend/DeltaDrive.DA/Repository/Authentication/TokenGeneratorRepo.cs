@@ -19,7 +19,9 @@ namespace DeltaDrive.DA.Repository.Authentication
             {
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new("id", user.Id.ToString()),
-                new("username", user.Email),
+                new("email", user.Email),
+                new("firstName", user.FirstName),
+                new("lastName", user.LastName),
                 //new(ClaimTypes.Role, user.GetRoleName())
             };
 

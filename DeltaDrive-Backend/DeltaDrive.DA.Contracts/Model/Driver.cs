@@ -14,6 +14,6 @@ namespace DeltaDrive.DA.Contracts.Model
         public string StartPrice { get; set; }
         public string PricePerKm { get; set; }
         public bool? IsBooked { get; set; }
-        public float? Rating { get; set; }
+        public float Rating { get; set; }
     }
 }

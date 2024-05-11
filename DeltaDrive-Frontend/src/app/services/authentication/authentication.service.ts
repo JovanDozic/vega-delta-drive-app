@@ -6,14 +6,17 @@ import { Result } from '../../model/common/result.model';
 import { AuthenticationResponse } from '../../model/authentication/authentication-response.model';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { RegisterRequest } from '../../model/authentication/register-request.model';
+import { User } from '../../model/user.model';
+import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
+  // public currentUserFirstName?: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private tokenService: TokenService) {}
 
   login(
     authRequest: AuthenticationRequest
@@ -28,9 +31,14 @@ export class AuthenticationService {
           if (response.isSuccess && response.value?.accessToken) {
             localStorage.setItem('token', response.value.accessToken as string);
             this.loggedIn.next(true);
+            // this.currentUserFirstName = this.tokenService.getUserDetailsFromToken().name;
           }
         })
       );
+  }
+
+  getUserFirstName() {
+    return this.tokenService.getUserDetailsFromToken().name;
   }
 
   register(regRequest: RegisterRequest) {
