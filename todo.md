@@ -5,12 +5,12 @@
 - [x] Definisati i pripremiti sve tehnologije koje se koriste: backend, frontend i baza.
 - [ ] Kreirati model baze podataka.
 - [x] Pripremiti n-layer za backend.
-- [ ] Kreiraj i pokreni migracije i popuni testne podatke.
-- [ ] Pripremiti strukturu za frontend.
+- [x] Kreiraj i pokreni migracije i popuni testne podatke.
+- [x] Pripremiti strukturu za frontend.
 
 ## Korisnici
 
-- [ ] Kreirati pocetnu stranicu na kojoj ce vec biti dostupne sve funkcionalnosti
+- [x] Kreirati pocetnu stranicu na kojoj ce vec biti dostupne sve funkcionalnosti
 - [x] Kreirati registraciju korisnika
 - [x] Kreirati login korisnika
 - [x] Kreirati logout korisnika

@@ -22,6 +22,46 @@ namespace DeltaDrive.DA.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("DeltaDrive.DA.Contracts.Model.Driver", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Brand")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool?>("IsBooked")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("longtext");
+
+                    b.Property<float>("Latitude")
+                        .HasColumnType("float");
+
+                    b.Property<float>("Longitude")
+                        .HasColumnType("float");
+
+                    b.Property<string>("PricePerKm")
+                        .HasColumnType("longtext");
+
+                    b.Property<float?>("Rating")
+                        .HasColumnType("float");
+
+                    b.Property<string>("StartPrice")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Drivers");
+                });
+
             modelBuilder.Entity("DeltaDrive.DA.Contracts.Model.User", b =>
                 {
                     b.Property<int>("Id")
@@ -30,11 +70,11 @@ namespace DeltaDrive.DA.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly>("Birthday")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Birthday")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("longtext");
@@ -46,6 +86,9 @@ namespace DeltaDrive.DA.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });

@@ -7,7 +7,7 @@ namespace DeltaDrive.DA.Contexts
     {
         // Database Sets:
         public DbSet<User> Users { get; set; }
-
+        public DbSet<Driver> Drivers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -14,6 +14,7 @@ namespace DeltaDrive.DA
         // Repositories:
         private IUserRepo _userRepo;
         private ITokenGeneratorRepo _tokenGeneratorRepo;
+        private IDriverRepo _driverRepo;
 
         public UnitOfWork(DataContext context)
         {
@@ -57,6 +58,10 @@ namespace DeltaDrive.DA
         public ITokenGeneratorRepo TokenGeneratorRepo()
         {
             return _tokenGeneratorRepo ??= new TokenGeneratorRepo();
+        }
+        public IDriverRepo DriverRepo()
+        {
+            return _driverRepo ??= new DriverRepo(_context);
         }
 
     }
