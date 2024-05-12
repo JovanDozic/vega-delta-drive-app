@@ -25,11 +25,11 @@ export class TokenService {
           'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname'
         ],
         id: decodedToken[
-          'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameId'
+          'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'
         ]
           ? parseInt(
               decodedToken[
-                'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameid'
+                'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'
               ]
             )
           : undefined,

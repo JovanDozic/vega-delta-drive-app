@@ -82,8 +82,16 @@
                                     EUR</span> <!-- TODO -->
                             </p>
                         </div>
-                        <button class="btn btn-outline-primary" (click)="sendRequest(vehicle)">
+                        <button class="btn btn-outline-primary" (click)="sendRequest(vehicle)"
+                            *ngIf="!vehicle.didDecline && !vehicle.isLoadingRequest">
                             <i class="bi bi-send me-2"></i>Send request
+                        </button>
+                        <button disabled class="btn btn-outline-secondary"
+                            *ngIf="!vehicle.didDecline && vehicle.isLoadingRequest">
+                            <i class="bi bi-hourglass me-2"></i>Loading
+                        </button>
+                        <button disabled class="btn btn-danger" *ngIf="vehicle.didDecline && !vehicle.isLoadingRequest">
+                            <i class="bi bi-x me-2"></i>Declined
                         </button>
                     </div>
                 </div>

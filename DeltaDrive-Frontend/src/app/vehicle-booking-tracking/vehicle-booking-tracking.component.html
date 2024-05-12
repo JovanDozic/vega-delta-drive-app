@@ -1,1 +1,56 @@
-<p>vehicle-booking-tracking works!</p>
+<div class="row">
+    <h2>Booking ID: {{booking.id}}</h2>
+    <h3>{{booking.vehicle.firstName}} {{booking.vehicle.lastName}}'s <b>{{booking.vehicle.brand}}</b> </h3>
+</div>
+
+<hr>
+
+<div class="row">
+    <div class="col-4">
+        <h5>Vehicle location</h5>
+        <div class="mb-2">
+            <label for="currentVehicleLongitude" class="form-label">Longitude</label>
+            <input disabled name="currentVehicleLongitude" type="text" class="form-control" id="currentVehicleLongitude"
+                aria-describedby="currentVehicleLongitudeHelp" [(ngModel)]="vehicle.location.x">
+        </div>
+        <div class="mb-2">
+            <label for="currentVehicleLatitude" class="form-label">Latitude</label>
+            <input disabled name="currentVehicleLatitude" type="text" class="form-control" id="currentVehicleLatitude"
+                aria-describedby="currentVehicleLatitudeHelp" [(ngModel)]="vehicle.location.y">
+        </div>
+    </div>
+    <div class="col-4">
+        <h5>Start location</h5>
+        <div class="mb-2">
+            <label for="currentStartLongitude" class="form-label">Longitude</label>
+            <input disabled name="currentStartLongitude" type="text" class="form-control" id="currentStartLongitude"
+                aria-describedby="currentStartLongitudeHelp" [(ngModel)]="booking.startLocation.longitude">
+        </div>
+        <div class="mb-2">
+            <label for="currentStartLatitude" class="form-label">Latitude</label>
+            <input disabled name="currentStartLatitude" type="text" class="form-control" id="currentStartLatitude"
+                aria-describedby="currentStartLatitudeHelp" [(ngModel)]="booking.startLocation.latitude">
+        </div>
+    </div>
+    <div class="col-4">
+        <h5>End location</h5>
+        <div class="mb-2">
+            <label for="currentEndLongitude" class="form-label">Longitude</label>
+            <input disabled name="currentEndLongitude" type="text" class="form-control" id="currentEndLongitude"
+                aria-describedby="currentEndLongitudeHelp" [(ngModel)]="booking.endLocation.longitude">
+        </div>
+        <div class="mb-2">
+            <label for="currentEndLatitude" class="form-label">Latitude</label>
+            <input disabled name="currentEndLatitude" type="text" class="form-control" id="currentEndLatitude"
+                aria-describedby="currentEndLatitudeHelp" [(ngModel)]="booking.endLocation.latitude">
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div class="row">
+    <div class="col-12">
+        <h5>Status:</h5> Waiting for pickup
+    </div>
+</div>

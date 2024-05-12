@@ -54,13 +54,22 @@ export class VehicleBookingComponent {
       endLocation: this.search.endLocation,
     };
 
+    vehicle.isLoadingRequest = true;
+
     this.bookingService.sendBookingRequest(request).subscribe((response) => {
       console.log('Booking request sent', response);
-      // TODO: Redirect user to booking tracking page for created booking
-      if (response.value?.isAccepted) {
+      if (response.value != null && response.value.isAccepted) {
         this.router.navigate([
           '/vehicle-booking-tracking/' + response.value.bookingId,
         ]);
+      } else if (response.value != null && !response.value.isAccepted) {
+        vehicle.isLoadingRequest = false;
+        alert(
+          'Booking request not accepted. Please consider any other vehicle.'
+        );
+        vehicle.didDecline = true;
+      } else {
+        alert('Booking request failed. Please try again.');
       }
     });
   }

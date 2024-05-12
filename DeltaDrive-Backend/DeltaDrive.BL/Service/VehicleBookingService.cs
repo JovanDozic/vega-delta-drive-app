@@ -11,11 +11,24 @@ namespace DeltaDrive.BL.Service
     {
         public async Task<Result<VehicleBookingResponseDto>> SendRequestAsync(VehicleBookingRequestDto request)
         {
-            // TODO: Simulate acceptance chances
-
             await Task.Delay(2000); // Used for simulating
 
-            // TODO: Set vehicle as unavailable
+            bool isAccepted = SimulateAcceptance();
+
+            if (!isAccepted)
+            {
+                return Result.Ok(new VehicleBookingResponseDto()
+                {
+                    IsAccepted = false,
+                    BookingId = -1,
+                });
+            }
+
+            // TODO: Set Users location to start location
+
+            var vehicle = await _unitOfWork.VehicleRepo().GetByIdAsync(request.VehicleId);
+            //vehicle.IsBooked = true; // TODO: Uncomment this
+            _unitOfWork.VehicleRepo().UpdateAsync(vehicle);
 
             var booking = await _unitOfWork.VehicleBookingRepo().AddAsync(new VehicleBooking()
             {
@@ -56,6 +69,12 @@ namespace DeltaDrive.BL.Service
             var response = _mapper.Map<VehicleBooking, VehicleBookingDto>(booking);
 
             return Result.Ok(response);
+        }
+
+        public static bool SimulateAcceptance()
+        {
+            return !true;
+            //return new Random().Next(100) >= 25; // TODO: Uncomment this
         }
     }
 }

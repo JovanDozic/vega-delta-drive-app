@@ -2,8 +2,8 @@
 {
     public enum VehicleBookingStatus
     {
-        Pending = 0,
-        InProgress = 1,
+        Waiting = 0,
+        Driving = 1,
         Completed = 2,
     }
 }
