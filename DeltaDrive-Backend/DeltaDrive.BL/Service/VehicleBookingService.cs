@@ -22,7 +22,6 @@ namespace DeltaDrive.BL.Service
                 UserId = request.UserId,
                 VehicleId = request.VehicleId,
                 BookingDate = DateTime.Now,
-                IsAccepted = true,
                 StartLocation = _mapper.Map<LocationDto, Location>(request.StartLocation),
                 EndLocation = _mapper.Map<LocationDto, Location>(request.EndLocation),
                 Price = 0,
@@ -36,6 +35,25 @@ namespace DeltaDrive.BL.Service
                 IsAccepted = true,
                 BookingId = booking.Entity.Id,
             };
+
+            return Result.Ok(response);
+        }
+
+        public Result<VehicleBookingDto> GetBooking(int id, int userId)
+        {
+            var booking = _unitOfWork.VehicleBookingRepo().GetById(id);
+
+            if (booking == null)
+            {
+                return Result.Fail<VehicleBookingDto>(FailureCode.NotFound);
+            }
+
+            if (booking.UserId != userId)
+            {
+                return Result.Fail<VehicleBookingDto>(FailureCode.Forbidden);
+            }
+
+            var response = _mapper.Map<VehicleBooking, VehicleBookingDto>(booking);
 
             return Result.Ok(response);
         }

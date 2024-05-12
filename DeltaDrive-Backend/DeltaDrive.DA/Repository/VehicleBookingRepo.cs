@@ -5,11 +5,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DeltaDrive.DA.Repository
 {
-    internal class VehicleBookingRepo(DbContext context) : Repository<VehicleBooking>(context), IVehicleBookingRepo
+    public class VehicleBookingRepo(DbContext context) : Repository<VehicleBooking>(context), IVehicleBookingRepo
     {
         public DataContext Context
         {
             get { return _context as DataContext; }
+        }
+
+        public VehicleBooking? GetById(int id)
+        {
+            return _context.Set<VehicleBooking>()
+                           .Include(booking => booking.User)
+                           .Include(booking => booking.Vehicle)
+                           .FirstOrDefault(x => x.Id == id);
         }
     }
 }

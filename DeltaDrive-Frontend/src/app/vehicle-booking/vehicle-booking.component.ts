@@ -7,6 +7,7 @@ import { VehicleBookingRequest } from '../model/vehicle-booking-request.model';
 import { TokenService } from '../services/authentication/token.service';
 import { AuthenticationService } from '../services/authentication/authentication.service';
 import { VehicleBookingService } from '../services/vehicle-booking.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vehicle-booking',
@@ -30,7 +31,8 @@ export class VehicleBookingComponent {
   constructor(
     private vehicleService: VehicleService,
     private bookingService: VehicleBookingService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private router: Router
   ) {}
 
   findVehicles() {
@@ -54,7 +56,12 @@ export class VehicleBookingComponent {
 
     this.bookingService.sendBookingRequest(request).subscribe((response) => {
       console.log('Booking request sent', response);
-      // TODO: Redirect user to booking tracking page for created booking.
+      // TODO: Redirect user to booking tracking page for created booking
+      if (response.value?.isAccepted) {
+        this.router.navigate([
+          '/vehicle-booking-tracking/' + response.value.bookingId,
+        ]);
+      }
     });
   }
 }

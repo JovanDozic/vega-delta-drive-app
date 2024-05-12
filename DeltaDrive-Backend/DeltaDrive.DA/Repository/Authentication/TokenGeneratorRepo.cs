@@ -18,10 +18,10 @@ namespace DeltaDrive.DA.Repository.Authentication
             var claims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new("id", user.Id.ToString()),
-                new("email", user.Email),
-                new("firstName", user.FirstName),
-                new("lastName", user.LastName),
+                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new(ClaimTypes.Email, user.Email),
+                new(ClaimTypes.GivenName, user.FirstName),
+                new(ClaimTypes.Surname, user.LastName),
                 //new(ClaimTypes.Role, user.GetRoleName())
             };
 

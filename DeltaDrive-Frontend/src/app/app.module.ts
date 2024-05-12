@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from './common/navbar/navbar.component';
 import { VehicleBookingComponent } from './vehicle-booking/vehicle-booking.component';
 import { AuthInterceptor } from './auth.interceptor';
+import { VehicleBookingTrackingComponent } from './vehicle-booking-tracking/vehicle-booking-tracking.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { AuthInterceptor } from './auth.interceptor';
     RegistrationComponent,
     NavbarComponent,
     VehicleBookingComponent,
+    VehicleBookingTrackingComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [

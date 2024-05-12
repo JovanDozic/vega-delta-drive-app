@@ -20,7 +20,20 @@ export class TokenService {
   getUserDetailsFromToken(): { name?: string; id?: number } {
     const decodedToken = this.decodeToken();
     if (decodedToken) {
-      return { name: decodedToken.firstName, id: decodedToken.id };
+      return {
+        name: decodedToken[
+          'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname'
+        ],
+        id: decodedToken[
+          'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameId'
+        ]
+          ? parseInt(
+              decodedToken[
+                'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameid'
+              ]
+            )
+          : undefined,
+      };
     }
     return {};
   }
