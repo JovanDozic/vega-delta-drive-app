@@ -28,9 +28,9 @@ namespace DeltaDrive.DA.Contexts
                 .HasForeignKey(booking => booking.UserId);
 
             modelBuilder.Entity<VehicleBooking>()
-                .HasOne(booking => booking.Driver)
+                .HasOne(booking => booking.Vehicle)
                 .WithMany()
-                .HasForeignKey(booking => booking.DriverId);
+                .HasForeignKey(booking => booking.VehicleId);
 
             modelBuilder.Entity<VehicleBooking>(entity =>
             {

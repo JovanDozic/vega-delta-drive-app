@@ -6,14 +6,13 @@ namespace DeltaDrive.DA.Contracts.Model
     {
         public int UserId { get; set; }
         public User User { get; set; }
-        public int DriverId { get; set; }
-        public Vehicle Driver { get; set; }
+        public int VehicleId { get; set; }
+        public Vehicle Vehicle { get; set; }
         public DateTime BookingDate { get; set; }
         public bool? IsAccepted { get; set; } = null;
         public Location StartLocation { get; set; }
         public Location EndLocation { get; set; }
         public float Price { get; set; }
-        public float Distance { get; set; }
-
+        public int Rating { get; set; }
     }
 }

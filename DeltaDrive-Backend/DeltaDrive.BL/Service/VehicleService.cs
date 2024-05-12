@@ -12,6 +12,8 @@ namespace DeltaDrive.BL.Service
     {
         public PagedResult<VehicleSearchResponseDto> GetAvailableVehicles(VehicleSearchRequestDto request)
         {
+            // TODO: Refactor this code
+
             var startPoint = new Point(request.StartLocation.Longitude, request.StartLocation.Latitude)
             { SRID = 4326 };
             var endPoint = new Point(request.EndLocation.Longitude,
@@ -30,7 +32,7 @@ namespace DeltaDrive.BL.Service
 
             foreach (var vehicle in searchResponse)
             {
-                vehicle.DistanceFromPassenger = CalculateDistance(endPoint, new Point(vehicle.Location.X, vehicle.Location.Y));
+                vehicle.DistanceFromPassenger = CalculateDistance(startPoint, new Point(vehicle.Location.X, vehicle.Location.Y));
 
                 vehicle.EstimatedPrice = vehicle.StartPrice + vehicle.PricePerKm * CalculateDistance(startPoint, endPoint);
             }
@@ -45,7 +47,7 @@ namespace DeltaDrive.BL.Service
         }
 
 
-
+        // TODO: Move this in helper class
         public static double CalculateDistance(Point coord1, Point coord2)
         {
             var R = 6371; // Radius of the Earth in kilometers

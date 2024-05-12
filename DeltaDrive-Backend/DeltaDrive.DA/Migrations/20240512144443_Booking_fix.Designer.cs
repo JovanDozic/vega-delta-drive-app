@@ -4,6 +4,7 @@ using DeltaDrive.DA.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 
@@ -12,9 +13,11 @@ using NetTopologySuite.Geometries;
 namespace DeltaDrive.DA.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240512144443_Booking_fix")]
+    partial class Booking_fix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,7 +60,7 @@ namespace DeltaDrive.DA.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("DeltaDrive.DA.Contracts.Model.Vehicle", b =>
@@ -94,7 +97,7 @@ namespace DeltaDrive.DA.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Vehicles", (string)null);
+                    b.ToTable("Vehicles");
                 });
 
             modelBuilder.Entity("DeltaDrive.DA.Contracts.Model.VehicleBooking", b =>
@@ -129,7 +132,7 @@ namespace DeltaDrive.DA.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("VehicleBookings", (string)null);
+                    b.ToTable("VehicleBookings");
                 });
 
             modelBuilder.Entity("DeltaDrive.DA.Contracts.Model.VehicleBooking", b =>
@@ -146,7 +149,7 @@ namespace DeltaDrive.DA.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("DeltaDrive.DA.Contracts.Model.VehicleBooking.EndLocation#DeltaDrive.DA.Contracts.Model.Location", "EndLocation", b1 =>
+                    b.OwnsOne("DeltaDrive.DA.Contracts.Model.Location", "EndLocation", b1 =>
                         {
                             b1.Property<int>("VehicleBookingId")
                                 .HasColumnType("int");
@@ -161,13 +164,13 @@ namespace DeltaDrive.DA.Migrations
 
                             b1.HasKey("VehicleBookingId");
 
-                            b1.ToTable("VehicleBookings", (string)null);
+                            b1.ToTable("VehicleBookings");
 
                             b1.WithOwner()
                                 .HasForeignKey("VehicleBookingId");
                         });
 
-                    b.OwnsOne("DeltaDrive.DA.Contracts.Model.VehicleBooking.StartLocation#DeltaDrive.DA.Contracts.Model.Location", "StartLocation", b1 =>
+                    b.OwnsOne("DeltaDrive.DA.Contracts.Model.Location", "StartLocation", b1 =>
                         {
                             b1.Property<int>("VehicleBookingId")
                                 .HasColumnType("int");
@@ -182,7 +185,7 @@ namespace DeltaDrive.DA.Migrations
 
                             b1.HasKey("VehicleBookingId");
 
-                            b1.ToTable("VehicleBookings", (string)null);
+                            b1.ToTable("VehicleBookings");
 
                             b1.WithOwner()
                                 .HasForeignKey("VehicleBookingId");

@@ -17,10 +17,10 @@ export class TokenService {
     return null;
   }
 
-  getUserDetailsFromToken(): { name?: string } {
+  getUserDetailsFromToken(): { name?: string; id?: number } {
     const decodedToken = this.decodeToken();
     if (decodedToken) {
-      return { name: decodedToken.firstName };
+      return { name: decodedToken.firstName, id: decodedToken.id };
     }
     return {};
   }

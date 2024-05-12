@@ -15,6 +15,7 @@ namespace DeltaDrive.DA
         private IUserRepo _userRepo;
         private ITokenGeneratorRepo _tokenGeneratorRepo;
         private IVehicleRepo _vehicleRepo;
+        private IVehicleBookingRepo _vehicleBookingRepo;
 
         public UnitOfWork(DataContext context)
         {
@@ -62,6 +63,10 @@ namespace DeltaDrive.DA
         public IVehicleRepo VehicleRepo()
         {
             return _vehicleRepo ??= new VehicleRepo(_context);
+        }
+        public IVehicleBookingRepo VehicleBookingRepo()
+        {
+            return _vehicleBookingRepo ??= new VehicleBookingRepo(_context);
         }
 
     }

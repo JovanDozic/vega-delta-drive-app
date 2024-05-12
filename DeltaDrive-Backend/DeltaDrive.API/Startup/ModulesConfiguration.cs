@@ -22,8 +22,8 @@ namespace DeltaDrive.API.Startup
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<IVehicleBookingService, VehicleBookingService>();
             services.AddScoped<IVehicleService, VehicleService>();
+            services.AddScoped<IVehicleBookingService, VehicleBookingService>();
         }
 
         // [AUTO MAPPERS]

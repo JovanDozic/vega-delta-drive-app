@@ -1,7 +1,6 @@
 ﻿using DeltaDrive.BL.Contracts.DTO;
 using DeltaDrive.BL.Contracts.IService;
 using FluentResults;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeltaDrive.API.Controllers
@@ -13,10 +12,10 @@ namespace DeltaDrive.API.Controllers
         private readonly IVehicleBookingService _vehicleBookingService = vehicleBookingService;
 
         [HttpPost("sendRequest")]
-        [Authorize]
-        public Result SendRequest([FromBody] VehicleBookingRequestDto request)
+        //[Authorize] // TODO: Uncomment
+        public async Task<Result<VehicleBookingResponseDto>> SendRequest([FromBody] VehicleBookingRequestDto request)
         {
-            return Result.Ok();
+            return await _vehicleBookingService.SendRequestAsync(request);
         }
 
     }

@@ -11,5 +11,6 @@ namespace DeltaDrive.DA.Contracts
         public IUserRepo UserRepo();
         public ITokenGeneratorRepo TokenGeneratorRepo();
         public IVehicleRepo VehicleRepo();
+        public IVehicleBookingRepo VehicleBookingRepo();
     }
 }

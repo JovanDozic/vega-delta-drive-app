@@ -37,6 +37,10 @@ export class AuthenticationService {
     return this.tokenService.getUserDetailsFromToken().name;
   }
 
+  getUserId() {
+    return this.tokenService.getUserDetailsFromToken().id;
+  }
+
   register(regRequest: RegisterRequest) {
     return this.http
       .post<Result<any>>(
