@@ -55,14 +55,14 @@ namespace DeltaDrive.API.Controllers
         [Authorize]
         public IActionResult StartRide(int id)
         {
-            Task.Run(() => SimulateRide(id, true));
+            var booking = _vehicleBookingService.GetBooking(id).Value;
+            Task.Run(() => SimulateRide(booking, true));
             return Ok();
         }
 
 
-        private async Task SimulateRide(int bookingId, bool toStartLocation)
+        private async Task SimulateRide(VehicleBookingDto booking, bool toStartLocation)
         {
-            var booking = _vehicleBookingService.GetBooking(bookingId).Value;
             var vehicle = booking.Vehicle;
 
             // Determine start and end points based on the phase of the journey
@@ -82,7 +82,7 @@ namespace DeltaDrive.API.Controllers
                 vehicle.Location.Y = startPoint.Latitude;
                 vehicle.Location.X = startPoint.Longitude;
 
-                await _hubContext.Clients.All.SendAsync("ReceiveLocation", bookingId, 0, 0);
+                await _hubContext.Clients.All.SendAsync("ReceiveLocation", booking.Id, 0, 0);
 
                 await Task.Delay(5000);
             }
@@ -91,7 +91,7 @@ namespace DeltaDrive.API.Controllers
             //vehicle.LocationLongitude = endPoint.Longitude;
             //_dbContext.SaveChanges();
 
-            await _hubContext.Clients.All.SendAsync("ReceiveLocation", bookingId, endPoint.Latitude, endPoint.Longitude);
+            await _hubContext.Clients.All.SendAsync("ReceiveLocation", booking.Id, endPoint.Latitude, endPoint.Longitude);
         }
 
 
