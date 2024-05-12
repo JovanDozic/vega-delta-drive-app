@@ -1,4 +1,5 @@
-﻿using DeltaDrive.DA.Contexts;
+﻿using DeltaDrive.API.Hubs;
+using DeltaDrive.DA.Contexts;
 using Microsoft.EntityFrameworkCore;
 
 namespace DeltaDrive.API.Startup
@@ -10,8 +11,6 @@ namespace DeltaDrive.API.Startup
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = _config.GetConnectionString("LocalhostConnectionString");
-
-            //services.AddControllers();
 
             services.AddControllers();
 
@@ -26,6 +25,8 @@ namespace DeltaDrive.API.Startup
             services.ConfigureModules(); // AutoMappers and Dependency Injection
 
             services.ConfigureCors("_corsPolicy"); // CORS policy
+
+            services.AddSignalR();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -36,15 +37,15 @@ namespace DeltaDrive.API.Startup
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors("_corsPolicy");
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors("_corsPolicy");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<VehicleLocationHub>("/vehicleLocationHub");
             });
         }
     }

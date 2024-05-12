@@ -52,7 +52,7 @@ namespace DeltaDrive.BL.Service
             return Result.Ok(response);
         }
 
-        public Result<VehicleBookingDto> GetBooking(int id, int userId)
+        public Result<VehicleBookingDto> GetUsersBooking(int id, int userId)
         {
             var booking = _unitOfWork.VehicleBookingRepo().GetById(id);
 
@@ -75,6 +75,20 @@ namespace DeltaDrive.BL.Service
         {
             return !true;
             //return new Random().Next(100) >= 25; // TODO: Uncomment this
+        }
+
+        public Result<VehicleBookingDto> GetBooking(int id)
+        {
+            var booking = _unitOfWork.VehicleBookingRepo().GetById(id);
+
+            if (booking == null)
+            {
+                return Result.Fail<VehicleBookingDto>(FailureCode.NotFound);
+            }
+
+            var response = _mapper.Map<VehicleBooking, VehicleBookingDto>(booking);
+
+            return Result.Ok(response);
         }
     }
 }

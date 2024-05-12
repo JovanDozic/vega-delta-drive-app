@@ -24,4 +24,11 @@ export class VehicleBookingService {
       `${environment.apiHost}/VehicleBooking/getBooking/${id}`
     );
   }
+
+  startRide(id: number) {
+    return this.http.get<any>(
+      `${environment.apiHost}/VehicleBooking/startRide/${id}`,
+      {}
+    );
+  }
 }

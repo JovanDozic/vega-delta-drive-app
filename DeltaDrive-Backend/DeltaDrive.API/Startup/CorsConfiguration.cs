@@ -11,7 +11,8 @@
                     {
                         builder.WithOrigins("http://localhost:4200")
                                .AllowAnyHeader()
-                               .AllowAnyMethod();
+                               .AllowAnyMethod()
+                               .AllowCredentials();
                     });
             });
 
