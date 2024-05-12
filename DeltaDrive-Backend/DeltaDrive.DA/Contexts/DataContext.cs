@@ -36,24 +36,19 @@ namespace DeltaDrive.DA.Contexts
             {
                 entity.OwnsOne(e => e.StartLocation, sa =>
                 {
-                    sa.Property(p => p.Latitude).HasColumnName("StartLatitude");
                     sa.Property(p => p.Longitude).HasColumnName("StartLongitude");
+                    sa.Property(p => p.Latitude).HasColumnName("StartLatitude");
                 });
 
                 entity.OwnsOne(e => e.EndLocation, ea =>
                 {
-                    ea.Property(p => p.Latitude).HasColumnName("EndLatitude");
                     ea.Property(p => p.Longitude).HasColumnName("EndLongitude");
+                    ea.Property(p => p.Latitude).HasColumnName("EndLatitude");
                 });
             });
 
             modelBuilder.Entity<Vehicle>(entity =>
             {
-                //entity.OwnsOne(e => e.Location, lo =>
-                //{
-                //    lo.Property(p => p.X).HasColumnName("Latitude");
-                //    lo.Property(p => p.Y).HasColumnName("Longitude");
-                //});
                 entity.Property(e => e.Location).HasColumnType("geometry");
             });
         }

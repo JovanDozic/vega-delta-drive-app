@@ -20,18 +20,13 @@ export class LoginComponent {
   ) {}
 
   login() {
-    this.authService.login(this.authRequest).subscribe({
-      next: (response) => {
-        if (response.isSuccess) {
-          this.router.navigate(['/']);
-        } else {
-          alert('Login failed!');
-        }
-      },
-      error: (err) => {
-        alert('Login failed!');
-        console.error(err);
-      },
+    this.authService.login(this.authRequest).subscribe((response) => {
+      if (response.isSuccess) {
+        this.router.navigate(['/']);
+      } else {
+        console.log(response.reasons?.at(0)?.message);
+        alert('Login failed: ' + response.reasons?.at(0)?.message);
+      }
     });
   }
 }

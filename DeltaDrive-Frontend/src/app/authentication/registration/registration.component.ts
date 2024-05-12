@@ -18,7 +18,6 @@ export class RegistrationComponent {
   ) {}
 
   register() {
-    // YYYY-MM-dd
     this.authService.register(this.regRequest).subscribe((response) => {
       if (response.isSuccess) {
         alert('Account created successfully!');

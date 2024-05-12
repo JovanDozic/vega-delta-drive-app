@@ -1,7 +1,7 @@
-﻿using DeltaDrive.BL.Contracts.DTO.Authentication;
+﻿using DeltaDrive.BL;
+using DeltaDrive.BL.Contracts.DTO.Authentication;
 using DeltaDrive.BL.Contracts.IService.Authentication;
 using FluentResults;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeltaDrive.API.Controllers
@@ -15,10 +15,12 @@ namespace DeltaDrive.API.Controllers
         [HttpPost("login")]
         public async Task<Result<AuthenticationResponseDto>> Login([FromBody] AuthenticationRequestDto request)
         {
+            // TODO: Fix result handling!!!!!!!!
+
             var result = await _authService.LoginAsync(request);
             if (result.IsFailed)
             {
-                return result.ToResult();
+                return Result.Fail(FailureCode.InvalidCredentials);
             }
             return result;
         }
@@ -27,13 +29,6 @@ namespace DeltaDrive.API.Controllers
         public async Task<Result> RegisterAsync([FromBody] RegisterRequestDto request)
         {
             return await _authService.RegisterAsync(request);
-        }
-
-        [HttpGet("testJWT")]
-        [Authorize]
-        public Result Get()
-        {
-            return Result.Ok();
         }
     }
 }

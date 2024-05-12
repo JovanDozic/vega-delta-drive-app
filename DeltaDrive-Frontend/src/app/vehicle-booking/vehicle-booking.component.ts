@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { Location } from '../model/location.model';
+import { VehicleService } from '../services/vehicle.service';
+import { VehicleSearchRequest } from '../model/vehicle-search-request.model';
+import { Vehicle } from '../model/vehicle.model';
+import { VehicleSearchResponse } from '../model/vehicle-search-response.model';
 
 @Component({
   selector: 'app-vehicle-booking',
@@ -7,8 +10,31 @@ import { Location } from '../model/location.model';
   styleUrl: './vehicle-booking.component.css',
 })
 export class VehicleBookingComponent {
-  currentLocation: Location = {};
-  destinationLocation: Location = {};
+  search: VehicleSearchRequest = {
+    startLocation: {
+      latitude: 0,
+      longitude: 0,
+    },
+    endLocation: {
+      latitude: 0,
+      longitude: 0,
+    },
+  };
+  availableVehicles: VehicleSearchResponse[] = [];
+  // TODO: Add loading boolean
 
-  constructor() {}
+  constructor(private vehicleService: VehicleService) {}
+
+  findVehicles() {
+    this.availableVehicles = [];
+
+    this.vehicleService
+      .getAvailableVehicles(this.search)
+      .subscribe((response) => {
+        this.availableVehicles = response.results;
+        console.log('EVO GA:');
+        console.log(this.availableVehicles);
+        console.log('IMA IH: ', this.availableVehicles.length);
+      });
+  }
 }

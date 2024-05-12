@@ -14,13 +14,10 @@ import { TokenService } from './token.service';
 })
 export class AuthenticationService {
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
-  // public currentUserFirstName?: string = '';
 
   constructor(private http: HttpClient, private tokenService: TokenService) {}
 
-  login(
-    authRequest: AuthenticationRequest
-  ): Observable<Result<AuthenticationResponse>> {
+  login(authRequest: AuthenticationRequest) {
     return this.http
       .post<Result<AuthenticationResponse>>(
         `${environment.apiHost}/Authentication/login`,
@@ -31,7 +28,6 @@ export class AuthenticationService {
           if (response.isSuccess && response.value?.accessToken) {
             localStorage.setItem('token', response.value.accessToken as string);
             this.loggedIn.next(true);
-            // this.currentUserFirstName = this.tokenService.getUserDetailsFromToken().name;
           }
         })
       );

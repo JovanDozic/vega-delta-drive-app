@@ -12,9 +12,13 @@ namespace DeltaDrive.BL.Service.Authentication
         public async Task<Result<AuthenticationResponseDto>> LoginAsync(AuthenticationRequestDto request)
         {
             var user = await _unitOfWork.UserRepo().GetByEmailAsync(request.Email);
-            if (user is null || !user.VerifyPassword(request.Password))
+            if (user is null)
             {
-                return Result.Fail(FailureCode.Forbidden);
+                return Result.Fail(FailureCode.UserNotFound);
+            }
+            else if (!user.VerifyPassword(request.Password))
+            {
+                return Result.Fail(FailureCode.InvalidCredentials);
             }
             var token = _unitOfWork.TokenGeneratorRepo().GenerateAccessToken(user);
             return Result.Ok(new AuthenticationResponseDto()

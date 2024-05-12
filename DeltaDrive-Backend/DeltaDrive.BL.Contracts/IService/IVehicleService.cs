@@ -4,6 +4,6 @@ namespace DeltaDrive.BL.Contracts.IService
 {
     public interface IVehicleService
     {
-        public PagedResult<VehicleDto> GetAvailableVehicles(VehicleSearchRequestDto request);
+        public PagedResult<VehicleSearchResponseDto> GetAvailableVehicles(VehicleSearchRequestDto request);
     }
 }

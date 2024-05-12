@@ -12,16 +12,9 @@ namespace DeltaDrive.API.Controllers
     {
         private readonly IVehicleService _vehicleService = vehicleService;
 
-        [HttpGet("getVehicles")]
+        [HttpPost("getAvailable")]
         [Authorize]
-        public IActionResult GetVehicles()
-        {
-            return Ok();
-        }
-
-        [HttpPost("getAvailableVehicles")]
-        //[Authorize]
-        public PagedResult<VehicleDto> GetAvailableVehicles([FromBody] VehicleSearchRequestDto request)
+        public PagedResult<VehicleSearchResponseDto> GetAvailableVehicles([FromBody] VehicleSearchRequestDto request)
         {
             return _vehicleService.GetAvailableVehicles(request);
         }

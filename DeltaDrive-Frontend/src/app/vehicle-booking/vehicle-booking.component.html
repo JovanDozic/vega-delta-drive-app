@@ -9,15 +9,14 @@
 
         <form>
             <div class="mb-2">
-                <label for="currentLatitude" class="form-label">Current Latitude</label>
-                <input name="currentLatitude" type="text" class="form-control" id="currentLatitude"
-                    aria-describedby="currentLatitudeHelp" placeholder="">
-                <!-- [(ngModel)]="authRequest.email" -->
-            </div>
-            <div class="mb-2">
                 <label for="currentLongitude" class="form-label">Current Longitude</label>
                 <input name="currentLongitude" type="text" class="form-control" id="currentLongitude"
-                    aria-describedby="currentLongitudeHelp" placeholder="">
+                    aria-describedby="currentLongitudeHelp" [(ngModel)]="search.startLocation.longitude">
+            </div>
+            <div class="mb-2">
+                <label for="currentLatitude" class="form-label">Current Latitude</label>
+                <input name="currentLatitude" type="text" class="form-control" id="currentLatitude"
+                    aria-describedby="currentLatitudeHelp" [(ngModel)]="search.startLocation.latitude">
             </div>
         </form>
 
@@ -28,14 +27,14 @@
 
         <form action="">
             <div class="mb-2">
-                <label for="destinationLatitude" class="form-label">Destination Latitude</label>
-                <input name="destinationLatitude" type="text" class="form-control" id="destinationLatitude"
-                    aria-describedby="destinationLatitudeHelp" placeholder="">
-            </div>
-            <div class="mb-2">
                 <label for="destinationLongitude" class="form-label">Destination Longitude</label>
                 <input name="destinationLongitude" type="text" class="form-control" id="destinationLongitude"
-                    aria-describedby="destinationLongitudeHelp" placeholder="">
+                    aria-describedby="destinationLongitudeHelp" [(ngModel)]="search.endLocation.longitude">
+            </div>
+            <div class="mb-2">
+                <label for="destinationLatitude" class="form-label">Destination Latitude</label>
+                <input name="destinationLatitude" type="text" class="form-control" id="destinationLatitude"
+                    aria-describedby="destinationLatitudeHelp" [(ngModel)]="search.endLocation.latitude">
             </div>
         </form>
 
@@ -44,8 +43,10 @@
 
 <div class="row mt-5">
     <div class="col-12 d-flex align-items-center justify-content-center">
-        <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#findVehicleModal"><i
-                class="bi bi-search me-3"></i>Find Vehicles</button>
+        <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#findVehicleModal"
+            (click)="findVehicles()">
+            <i class="bi bi-search me-3"></i>Find Vehicles
+        </button>
     </div>
 </div>
 
@@ -60,22 +61,25 @@
             </div>
             <div class="modal-body">
 
-                <div class="card my-3">
+                <div class="card my-3" *ngFor="let vehicle of availableVehicles">
                     <div class="card-body d-flex align-items-center justify-content-between">
-                        <div>
-                            <h5 class="card-title">Brandy Eleanor's <b>Bentley</b></h5>
+                        <div style="width: 65%;">
+                            <h5 class="card-title">{{vehicle.firstName}} {{vehicle.lastName}}'s <b>{{vehicle.brand}}</b>
+                            </h5>
                             <p class="card-text">
-                                <i class="bi bi-geo-alt me-2"></i>1.2 km away
-                                <!-- Price per km: -->
+                                <i class="bi bi-geo-alt me-2"></i>~{{vehicle.distanceFromPassenger.toFixed(2)}} km away
+                                <!-- TODO -->
                                 <br>
-                                <i class="bi bi-play me-2"></i>5.728 EUR Starting Price
+                                <i class="bi bi-play me-2"></i>{{vehicle.startPrice.toFixed(2)}} EUR Starting Price
                                 <br>
-                                <i class="bi bi-currency-euro me-2"></i>1.628 EUR per km
+                                <i class="bi bi-currency-euro me-2"></i>{{vehicle.pricePerKm.toFixed(2)}} EUR per km
                                 <br>
-                                <i class="bi bi-star me-2"></i>4.8 Stars
+                                <i class="bi bi-star me-2"></i>{{vehicle.rating == null ? 0.0 :
+                                vehicle.rating.toFixed(1)}} Stars
                                 <br><br>
-                                <i class="bi bi-tag me-2"></i>Estimated Price: <span class="text-primary">10.00
-                                    EUR</span>
+                                <i class="bi bi-tag me-2"></i>Estimated Price: <span
+                                    class="text-primary">~{{vehicle.estimatedPrice.toFixed(2)}}
+                                    EUR</span> <!-- TODO -->
                             </p>
                         </div>
                         <button class="btn btn-outline-primary">
