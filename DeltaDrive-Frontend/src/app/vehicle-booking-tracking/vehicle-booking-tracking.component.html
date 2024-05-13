@@ -50,13 +50,22 @@
 <hr>
 
 <div class="row">
-    <button class="btn btn-success" (click)="startRide()">Start ride</button>
+    <button class="btn btn-success" disabled
+        *ngIf="this.booking.status == 1 || this.booking.status == 3">Driving...</button>
+
+    <button class="btn btn-success" (click)="startRideToStartLocation()" *ngIf="this.booking.status == 0">Start
+        ride to start location</button>
+
+    <button class="btn btn-success" (click)="startRideToEndLocation()" *ngIf="this.booking.status == 2">Start
+        ride to end location</button>
+
+    <button class="btn btn-success" disabled *ngIf="this.booking.status == 4">Completed!</button>
 </div>
 
 <hr>
 
 <div class="row">
     <div class="col-12">
-        <h5>Status:</h5> Waiting for pickup
+        <h5>Status:</h5> {{statusMessage}}
     </div>
 </div>

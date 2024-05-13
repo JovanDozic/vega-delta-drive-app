@@ -13,10 +13,13 @@ export interface VehicleBooking {
   endLocation: Location;
   price: number;
   rating: number;
+  status: VehicleBookingStatus;
 }
 
 export enum VehicleBookingStatus {
   Waiting = 0,
-  Driving = 1,
-  Completed = 2,
+  DrivingToStartLocation = 1,
+  WaitingForPassenger = 2,
+  DrivingToEndLocation = 3,
+  Completed = 4,
 }

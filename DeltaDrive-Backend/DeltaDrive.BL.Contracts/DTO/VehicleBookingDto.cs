@@ -12,5 +12,14 @@
         public LocationDto EndLocation { get; set; }
         public float Price { get; set; }
         public int Rating { get; set; }
+        public VehicleBookingStatus Status { get; set; }
+    }
+    public enum VehicleBookingStatus
+    {
+        Waiting = 0,
+        DrivingToStartLocation = 1,
+        WaitingForPassenger = 2,
+        DrivingToEndLocation = 3,
+        Completed = 4,
     }
 }

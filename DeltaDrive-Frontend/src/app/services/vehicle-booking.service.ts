@@ -25,9 +25,16 @@ export class VehicleBookingService {
     );
   }
 
-  startRide(id: number) {
+  startRideToStartLocation(id: number) {
     return this.http.get<any>(
-      `${environment.apiHost}/VehicleBooking/startRide/${id}`,
+      `${environment.apiHost}/VehicleBooking/startRideToStartLocation/${id}`,
+      {}
+    );
+  }
+
+  startRideToEndLocation(id: number) {
+    return this.http.get<any>(
+      `${environment.apiHost}/VehicleBooking/startRideToEndLocation/${id}`,
       {}
     );
   }

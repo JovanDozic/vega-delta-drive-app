@@ -20,12 +20,17 @@ export class SignalRService {
   };
 
   public addLocationListener = (
-    updateLocation: (id: number, lat: number, long: number) => void
+    updateLocation: (
+      id: number,
+      status: number,
+      lat: number,
+      long: number
+    ) => void
   ) => {
     this.hubConnection?.on(
       'ReceiveLocation',
-      (bookingId, latitude, longitude) => {
-        updateLocation(bookingId, latitude, longitude);
+      (bookingId, status, latitude, longitude) => {
+        updateLocation(bookingId, status, latitude, longitude);
       }
     );
   };

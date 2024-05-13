@@ -51,51 +51,90 @@ namespace DeltaDrive.API.Controllers
             }
         }
 
-        [HttpGet("startRide/{id}")]
+        [HttpGet("startRideToStartLocation/{id}")]
         [Authorize]
-        public IActionResult StartRide(int id)
+        public IActionResult StartRideToStartLocation(int id)
         {
             var booking = _vehicleBookingService.GetBooking(id).Value;
-            Task.Run(() => SimulateRide(booking, true));
+            Task.Run(() => SimulateRideToStartLocation(booking));
+            return Ok();
+        }
+
+        [HttpGet("startRideToEndLocation/{id}")]
+        [Authorize]
+        public IActionResult StartRideToEndLocation(int id)
+        {
+            var booking = _vehicleBookingService.GetBooking(id).Value;
+            Task.Run(() => SimulateRideToEndLocation(booking));
             return Ok();
         }
 
 
-        private async Task SimulateRide(VehicleBookingDto booking, bool toStartLocation)
+        private async Task SimulateRideToStartLocation(VehicleBookingDto booking)
         {
+            /* 
+             * TODO: Write down how this method works, and how is location updated on the frontend.
+             * 
+             * TODO: Move this logic into a service, e.g. RideSimulationService.
+             * 
+             * TODO: Add actual calculations for the vehicle's location.
+             * 
+             * TODO: Make sure code is refactored and as clean as possible.
+             */
+
             var vehicle = booking.Vehicle;
 
-            // Determine start and end points based on the phase of the journey
-            var startPoint = toStartLocation
-                ? new GeoCoordinate(vehicle.Location.Y, vehicle.Location.X)
-                : new GeoCoordinate(booking.StartLocation.Latitude, booking.StartLocation.Longitude);
+            var currentPoint = new GeoCoordinate(vehicle.Location.Y, vehicle.Location.X);
+            var endPoint = new GeoCoordinate(booking.StartLocation.Latitude, booking.StartLocation.Longitude);
 
-            var endPoint = toStartLocation
-                ? new GeoCoordinate(booking.StartLocation.Latitude, booking.StartLocation.Longitude)
-                : new GeoCoordinate(booking.EndLocation.Latitude, booking.EndLocation.Longitude);
+            //double speed = 60 * 1000 / 3600;
+            //double distancePerTick = speed * 5;
 
-            double speed = 60 * 1000 / 3600; // Convert speed to m/s
-            double distancePerTick = speed * 5; // Distance travelled in 5 seconds
+            double thresholdDistance = 10.0;
 
-            while (startPoint.GetDistanceTo(endPoint) > distancePerTick)
+            while (currentPoint.GetDistanceTo(endPoint) > thresholdDistance)
             {
-                vehicle.Location.Y = startPoint.Latitude;
-                vehicle.Location.X = startPoint.Longitude;
+                vehicle.Location.Y += 0.1;
+                vehicle.Location.X += 0.1;
 
-                await _hubContext.Clients.All.SendAsync("ReceiveLocation", booking.Id, 0, 0);
+                currentPoint.Latitude = vehicle.Location.Y;
+                currentPoint.Longitude = vehicle.Location.X;
 
-                await Task.Delay(5000);
+                await _hubContext.Clients.All.SendAsync("ReceiveLocation", booking.Id, VehicleBookingStatus.DrivingToStartLocation, vehicle.Location.X, vehicle.Location.Y);
+
+                await Task.Delay(1000); // TODO: Change to 5000
             }
 
             //vehicle.LocationLatitude = endPoint.Latitude;
             //vehicle.LocationLongitude = endPoint.Longitude;
             //_dbContext.SaveChanges();
 
-            await _hubContext.Clients.All.SendAsync("ReceiveLocation", booking.Id, endPoint.Latitude, endPoint.Longitude);
+            await _hubContext.Clients.All.SendAsync("ReceiveLocation", booking.Id, VehicleBookingStatus.WaitingForPassenger, endPoint.Latitude, endPoint.Longitude);
         }
 
+        private async Task SimulateRideToEndLocation(VehicleBookingDto booking)
+        {
+            var vehicle = booking.Vehicle;
 
+            var currentPoint = new GeoCoordinate(vehicle.Location.Y, vehicle.Location.X);
+            var endPoint = new GeoCoordinate(booking.EndLocation.Latitude, booking.EndLocation.Longitude);
 
+            double thresholdDistance = 10.0;
 
+            while (currentPoint.GetDistanceTo(endPoint) > thresholdDistance)
+            {
+                vehicle.Location.Y += 0.1;
+                vehicle.Location.X += 0.1;
+
+                currentPoint.Latitude = vehicle.Location.Y;
+                currentPoint.Longitude = vehicle.Location.X;
+
+                await _hubContext.Clients.All.SendAsync("ReceiveLocation", booking.Id, VehicleBookingStatus.DrivingToEndLocation, vehicle.Location.X, vehicle.Location.Y);
+
+                await Task.Delay(1000); // TODO: Change to 5000
+            }
+
+            await _hubContext.Clients.All.SendAsync("ReceiveLocation", booking.Id, VehicleBookingStatus.Completed, endPoint.Latitude, endPoint.Longitude);
+        }
     }
 }

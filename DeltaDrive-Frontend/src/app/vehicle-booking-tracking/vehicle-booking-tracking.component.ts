@@ -1,7 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { VehicleBookingService } from '../services/vehicle-booking.service';
-import { VehicleBooking } from '../model/vehicle-booking.model';
+import {
+  VehicleBooking,
+  VehicleBookingStatus,
+} from '../model/vehicle-booking.model';
 import { Vehicle } from '../model/vehicle.model';
 import { User } from '../model/user.model';
 import { AuthenticationService } from '../services/authentication/authentication.service';
@@ -21,6 +24,7 @@ export class VehicleBookingTrackingComponent implements OnInit, OnDestroy {
   } as VehicleBooking;
   vehicle: Vehicle = { location: { x: 0, y: 0 } } as Vehicle;
   passenger: User = {};
+  statusMessage: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -43,8 +47,17 @@ export class VehicleBookingTrackingComponent implements OnInit, OnDestroy {
 
   initSignalR() {
     this.signalRService.startConnection();
-    this.signalRService.addLocationListener((id, lat, long) => {
-      console.log('Received location', id, lat, long);
+    this.signalRService.addLocationListener((id, status, lat, long) => {
+      console.log('Received location', id, status, lat, long);
+
+      if (this.booking.id != id) {
+        throw new Error('Invalid booking ID');
+      }
+
+      this.booking.vehicle.location.x = long;
+      this.booking.vehicle.location.y = lat;
+      this.booking.status = status;
+      this.updateStatus(status);
     });
   }
 
@@ -66,9 +79,42 @@ export class VehicleBookingTrackingComponent implements OnInit, OnDestroy {
     });
   }
 
-  startRide() {
-    this.bookingService.startRide(this.booking.id).subscribe((response) => {
-      console.log('Ride started', response);
-    });
+  startRideToStartLocation() {
+    this.bookingService
+      .startRideToStartLocation(this.booking.id)
+      .subscribe((response) => {
+        console.log('Ride started', response);
+      });
+  }
+
+  startRideToEndLocation() {
+    this.bookingService
+      .startRideToEndLocation(this.booking.id)
+      .subscribe((response) => {
+        console.log('Ride started', response);
+      });
+  }
+
+  private updateStatus(status: number) {
+    switch (status) {
+      case 0:
+        this.statusMessage = 'Waiting for start';
+        return;
+      case 1:
+        this.statusMessage = 'Driving to start location';
+        return;
+      case 2:
+        this.statusMessage = 'Waiting for passenger';
+        return;
+      case 3:
+        this.statusMessage = 'Driving to end location';
+        return;
+      case 4:
+        this.statusMessage = 'Completed';
+        return;
+      default:
+        this.statusMessage = 'Unknown';
+        return;
+    }
   }
 }
