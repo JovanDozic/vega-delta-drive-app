@@ -66,5 +66,37 @@ namespace DeltaDrive.BL.Service
         {
             return Math.PI * angle / 180.0;
         }
+
+        public async Task UpdateVehicle(VehicleDto vehicleDto)
+        {
+            try
+            {
+                var vehicle = _mapper.Map<VehicleDto, Vehicle>(vehicleDto);
+
+                _unitOfWork.VehicleRepo().Update(vehicle);
+                await _unitOfWork.SaveAsync();
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                System.Diagnostics.Debug.WriteLine(e.StackTrace);
+            }
+        }
+
+        public async Task<VehicleDto> GetByIdAsync(int id)
+        {
+            var vehicle = await _unitOfWork.VehicleRepo().GetByIdAsync(id);
+
+            return _mapper.Map<Vehicle, VehicleDto>(vehicle);
+        }
+
+        public Task UpdateLocation(VehicleDto vehicleDto)
+        {
+            var vehicle = _mapper.Map<VehicleDto, Vehicle>(vehicleDto);
+
+            _unitOfWork.VehicleRepo().Update(vehicle);
+
+            return _unitOfWork.SaveAsync();
+        }
     }
 }

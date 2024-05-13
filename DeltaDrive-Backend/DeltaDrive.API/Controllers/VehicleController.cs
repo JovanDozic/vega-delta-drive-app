@@ -18,5 +18,13 @@ namespace DeltaDrive.API.Controllers
         {
             return _vehicleService.GetAvailableVehicles(request);
         }
+
+        [HttpPatch("updateLocation")]
+        [Authorize]
+        public IActionResult UpdateLocation([FromBody] VehicleDto vehicleDto)
+        {
+            _vehicleService.UpdateLocation(vehicleDto);
+            return Ok();
+        }
     }
 }

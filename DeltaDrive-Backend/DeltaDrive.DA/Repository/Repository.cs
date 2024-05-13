@@ -45,7 +45,7 @@ namespace DeltaDrive.DA.Repository
             return await _context.Set<TEntity>().CountAsync();
         }
 
-        public TEntity UpdateAsync(TEntity entity)
+        public TEntity Update(TEntity entity)
         {
             try
             {

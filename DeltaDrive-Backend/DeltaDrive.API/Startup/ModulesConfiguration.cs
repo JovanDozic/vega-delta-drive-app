@@ -1,4 +1,5 @@
-﻿using DeltaDrive.BL.Contracts.IService;
+﻿using DeltaDrive.API.Helpers;
+using DeltaDrive.BL.Contracts.IService;
 using DeltaDrive.BL.Contracts.IService.Authentication;
 using DeltaDrive.BL.Mapper;
 using DeltaDrive.BL.Service;
@@ -24,6 +25,10 @@ namespace DeltaDrive.API.Startup
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IVehicleService, VehicleService>();
             services.AddScoped<IVehicleBookingService, VehicleBookingService>();
+            services.AddScoped<IRideSimulationService, RideSimulationService>();
+            services.AddSingleton<IRideSimulationUpdater, RideSimulationUpdater>();
+
+            services.AddHostedService<RideSimulationService>();
         }
 
         // [AUTO MAPPERS]

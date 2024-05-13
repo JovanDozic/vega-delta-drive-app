@@ -18,4 +18,11 @@ export class VehicleService {
       search
     );
   }
+
+  updateVehicleLocation(vehicle: Vehicle) {
+    return this.http.patch<void>(
+      `${environment.apiHost}/Vehicle/updateLocation`,
+      vehicle
+    );
+  }
 }

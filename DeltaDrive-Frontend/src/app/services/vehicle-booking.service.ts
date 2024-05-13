@@ -38,4 +38,11 @@ export class VehicleBookingService {
       {}
     );
   }
+
+  completeBooking(booking: VehicleBooking) {
+    return this.http.patch<Result<VehicleBooking>>(
+      `${environment.apiHost}/VehicleBooking/completeBooking`,
+      booking
+    );
+  }
 }

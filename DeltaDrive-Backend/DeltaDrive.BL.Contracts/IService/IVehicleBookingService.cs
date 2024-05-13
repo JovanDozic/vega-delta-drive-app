@@ -8,5 +8,6 @@ namespace DeltaDrive.BL.Contracts.IService
         public Task<Result<VehicleBookingResponseDto>> SendRequestAsync(VehicleBookingRequestDto request);
         public Result<VehicleBookingDto> GetUsersBooking(int id, int userId);
         public Result<VehicleBookingDto> GetBooking(int id);
+        public Task<Result<VehicleBookingDto>> CompleteBooking(VehicleBookingDto booking);
     }
 }

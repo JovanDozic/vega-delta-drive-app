@@ -1,71 +1,111 @@
-<div class="row">
-    <h2>Booking ID: {{booking.id}}</h2>
-    <h3>{{booking.vehicle.firstName}} {{booking.vehicle.lastName}}'s <b>{{booking.vehicle.brand}}</b> </h3>
-</div>
-
-<hr>
-
-<div class="row">
-    <div class="col-4">
-        <h5>Vehicle location</h5>
-        <div class="mb-2">
-            <label for="currentVehicleLongitude" class="form-label">Longitude</label>
-            <input disabled name="currentVehicleLongitude" type="text" class="form-control" id="currentVehicleLongitude"
-                aria-describedby="currentVehicleLongitudeHelp" [(ngModel)]="vehicle.location.x">
-        </div>
-        <div class="mb-2">
-            <label for="currentVehicleLatitude" class="form-label">Latitude</label>
-            <input disabled name="currentVehicleLatitude" type="text" class="form-control" id="currentVehicleLatitude"
-                aria-describedby="currentVehicleLatitudeHelp" [(ngModel)]="vehicle.location.y">
-        </div>
-    </div>
-    <div class="col-4">
-        <h5>Start location</h5>
-        <div class="mb-2">
-            <label for="currentStartLongitude" class="form-label">Longitude</label>
-            <input disabled name="currentStartLongitude" type="text" class="form-control" id="currentStartLongitude"
-                aria-describedby="currentStartLongitudeHelp" [(ngModel)]="booking.startLocation.longitude">
-        </div>
-        <div class="mb-2">
-            <label for="currentStartLatitude" class="form-label">Latitude</label>
-            <input disabled name="currentStartLatitude" type="text" class="form-control" id="currentStartLatitude"
-                aria-describedby="currentStartLatitudeHelp" [(ngModel)]="booking.startLocation.latitude">
-        </div>
-    </div>
-    <div class="col-4">
-        <h5>End location</h5>
-        <div class="mb-2">
-            <label for="currentEndLongitude" class="form-label">Longitude</label>
-            <input disabled name="currentEndLongitude" type="text" class="form-control" id="currentEndLongitude"
-                aria-describedby="currentEndLongitudeHelp" [(ngModel)]="booking.endLocation.longitude">
-        </div>
-        <div class="mb-2">
-            <label for="currentEndLatitude" class="form-label">Latitude</label>
-            <input disabled name="currentEndLatitude" type="text" class="form-control" id="currentEndLatitude"
-                aria-describedby="currentEndLatitudeHelp" [(ngModel)]="booking.endLocation.latitude">
+<div class="row" *ngIf="isCompleted && !doesNotExist">
+    <div class="px-4 py-5 my-5 text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="rgb(30, 170, 14)"
+            class="bi bi-check-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+            <path
+                d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
+        </svg>
+        <h1 class="display-5 fw-semibold text-body-emphasis mt-3">This ride is already completed!</h1>
+        <div class="col-lg-6 mx-auto">
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-4">
+                <button type="button" class="btn btn-primary btn-lg px-4 gap-3" routerLink="/vehicle-booking/">Book
+                    another ride</button>
+            </div>
         </div>
     </div>
 </div>
 
-<hr>
-
-<div class="row">
-    <button class="btn btn-success" disabled
-        *ngIf="this.booking.status == 1 || this.booking.status == 3">Driving...</button>
-
-    <button class="btn btn-success" (click)="startRideToStartLocation()" *ngIf="this.booking.status == 0">Start
-        ride to start location</button>
-
-    <button class="btn btn-success" (click)="startRideToEndLocation()" *ngIf="this.booking.status == 2">Start
-        ride to end location</button>
-
-    <button class="btn btn-success" disabled *ngIf="this.booking.status == 4">Completed!</button>
+<div class="row" *ngIf="!isCompleted && doesNotExist">
+    <div class="px-4 py-5 my-5 text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="rgb(215, 98, 14)" class="bi bi-x-circle"
+            viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+            <path
+                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+        </svg>
+        <h1 class="display-5 fw-semibold text-body-emphasis mt-3">Ride not found!</h1>
+        <div class="col-lg-6 mx-auto">
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-4">
+                <button type="button" class="btn btn-primary btn-lg px-4 gap-3" routerLink="/vehicle-booking/">Book
+                    another ride</button>
+            </div>
+        </div>
+    </div>
 </div>
 
-<hr>
+<div *ngIf="!isCompleted && !doesNotExist">
+    <div class="row">
+        <h2>Booking ID: {{booking.id}}</h2>
+        <h3>{{booking.vehicle.firstName}} {{booking.vehicle.lastName}}'s <b>{{booking.vehicle.brand}}</b> </h3>
+    </div>
 
-<div class="row">
-    <div class="col-12">
-        <h5>Status:</h5> {{statusMessage}}
+    <hr>
+
+    <div class="row">
+        <div class="col-4">
+            <h5>Vehicle location</h5>
+            <div class="mb-2">
+                <label for="currentVehicleLongitude" class="form-label">Longitude</label>
+                <input disabled name="currentVehicleLongitude" type="text" class="form-control"
+                    id="currentVehicleLongitude" aria-describedby="currentVehicleLongitudeHelp"
+                    [(ngModel)]="vehicle.location.x">
+            </div>
+            <div class="mb-2">
+                <label for="currentVehicleLatitude" class="form-label">Latitude</label>
+                <input disabled name="currentVehicleLatitude" type="text" class="form-control"
+                    id="currentVehicleLatitude" aria-describedby="currentVehicleLatitudeHelp"
+                    [(ngModel)]="vehicle.location.y">
+            </div>
+        </div>
+        <div class="col-4">
+            <h5>Start location</h5>
+            <div class="mb-2">
+                <label for="currentStartLongitude" class="form-label">Longitude</label>
+                <input disabled name="currentStartLongitude" type="text" class="form-control" id="currentStartLongitude"
+                    aria-describedby="currentStartLongitudeHelp" [(ngModel)]="booking.startLocation.longitude">
+            </div>
+            <div class="mb-2">
+                <label for="currentStartLatitude" class="form-label">Latitude</label>
+                <input disabled name="currentStartLatitude" type="text" class="form-control" id="currentStartLatitude"
+                    aria-describedby="currentStartLatitudeHelp" [(ngModel)]="booking.startLocation.latitude">
+            </div>
+        </div>
+        <div class="col-4">
+            <h5>End location</h5>
+            <div class="mb-2">
+                <label for="currentEndLongitude" class="form-label">Longitude</label>
+                <input disabled name="currentEndLongitude" type="text" class="form-control" id="currentEndLongitude"
+                    aria-describedby="currentEndLongitudeHelp" [(ngModel)]="booking.endLocation.longitude">
+            </div>
+            <div class="mb-2">
+                <label for="currentEndLatitude" class="form-label">Latitude</label>
+                <input disabled name="currentEndLatitude" type="text" class="form-control" id="currentEndLatitude"
+                    aria-describedby="currentEndLatitudeHelp" [(ngModel)]="booking.endLocation.latitude">
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <button class="btn btn-success" disabled
+            *ngIf="this.booking.status == 1 || this.booking.status == 3">Driving...</button>
+
+        <button class="btn btn-success" (click)="startRideToStartLocation()" *ngIf="this.booking.status == 0">Start
+            ride to start location</button>
+
+        <button class="btn btn-success" (click)="startRideToEndLocation()" *ngIf="this.booking.status == 2">Start
+            ride to end location</button>
+
+        <button class="btn btn-success" disabled *ngIf="this.booking.status == 4">Completed!</button>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-12">
+            <h5>Status:</h5> {{statusMessage}}
+        </div>
     </div>
 </div>

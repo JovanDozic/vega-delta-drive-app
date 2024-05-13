@@ -8,7 +8,7 @@ namespace DeltaDrive.DA.Contracts.IRepository
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<IEnumerable<TEntity>> GetAllPagedAsync(int page, int pageSize);
         Task<TEntity> GetByIdAsync(int id);
-        TEntity UpdateAsync(TEntity entity);
+        TEntity Update(TEntity entity);
         Task DeleteAsync(int id);
         Task<int> GetTotalCount();
     }
