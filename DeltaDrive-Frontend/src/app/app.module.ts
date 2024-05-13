@@ -17,6 +17,7 @@ import { NavbarComponent } from './common/navbar/navbar.component';
 import { VehicleBookingComponent } from './vehicle-booking/vehicle-booking.component';
 import { AuthInterceptor } from './auth.interceptor';
 import { VehicleBookingTrackingComponent } from './vehicle-booking-tracking/vehicle-booking-tracking.component';
+import { VehicleBookingHistoryComponent } from './vehicle-booking-history/vehicle-booking-history.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { VehicleBookingTrackingComponent } from './vehicle-booking-tracking/vehi
     NavbarComponent,
     VehicleBookingComponent,
     VehicleBookingTrackingComponent,
+    VehicleBookingHistoryComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [

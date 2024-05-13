@@ -23,5 +23,9 @@ namespace DeltaDrive.BL
         public static readonly IError Internal = new Error("Internal server error.")
             .WithMetadata("code", 500);
 
+        public static readonly IError UserAlreadyHasAnActiveBooking = new Error("User already has an active booking.")
+            .WithMetadata("code", 400)
+            .WithMetadata("subCode", 3);
+
     }
 }

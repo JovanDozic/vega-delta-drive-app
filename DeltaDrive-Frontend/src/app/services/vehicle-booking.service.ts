@@ -45,4 +45,10 @@ export class VehicleBookingService {
       booking
     );
   }
+
+  getHistory() {
+    return this.http.get<VehicleBooking[]>(
+      `${environment.apiHost}/VehicleBooking/history`
+    );
+  }
 }

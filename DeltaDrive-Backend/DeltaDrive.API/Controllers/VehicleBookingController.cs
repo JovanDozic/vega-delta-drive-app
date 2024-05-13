@@ -17,7 +17,6 @@ namespace DeltaDrive.API.Controllers
         private readonly IHubContext<VehicleLocationHub> _hubContext = hubContext;
         private readonly IRideSimulationService _rideSimulationService = rideSimulationService;
 
-
         [HttpPost("sendRequest")]
         [Authorize]
         public async Task<Result<VehicleBookingResponseDto>> SendRequest([FromBody] VehicleBookingRequestDto request)
@@ -33,7 +32,7 @@ namespace DeltaDrive.API.Controllers
 
             if (userId == null)
             {
-                return Unauthorized("This booking does not belong to logged user.");
+                return Unauthorized("Token authentication problem.");
             }
 
             try
@@ -78,6 +77,20 @@ namespace DeltaDrive.API.Controllers
             }
 
             return Ok(result.Value);
+        }
+
+        [HttpGet("history")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<VehicleBookingDto>>> GetHistoryAsync()
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                return Unauthorized("Token authentication problem.");
+            }
+
+            var bookings = await _vehicleBookingService.GetHistoryAsync(int.Parse(userId));
+            return Ok(bookings);
         }
     }
 }

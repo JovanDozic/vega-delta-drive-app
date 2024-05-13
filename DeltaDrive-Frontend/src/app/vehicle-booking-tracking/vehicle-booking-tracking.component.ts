@@ -73,7 +73,7 @@ export class VehicleBookingTrackingComponent implements OnInit, OnDestroy {
               'Location updated after driving to start location.',
               response
             );
-            this.booking = response as unknown as VehicleBooking; // TODO: wtf
+            // this.booking.vehicle = response as unknown as Vehicle; // TODO: wtf
           });
       }
 
@@ -87,6 +87,7 @@ export class VehicleBookingTrackingComponent implements OnInit, OnDestroy {
               'Location updated after driving to end location.',
               response
             );
+            // this.booking.vehicle = response as unknown as Vehicle; // TODO: wtf
           });
 
         this.booking.status = VehicleBookingStatus.Completed;

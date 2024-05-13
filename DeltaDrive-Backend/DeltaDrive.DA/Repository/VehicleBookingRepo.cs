@@ -19,5 +19,14 @@ namespace DeltaDrive.DA.Repository
                            .Include(booking => booking.Vehicle)
                            .FirstOrDefault(x => x.Id == id);
         }
+
+        public async Task<IEnumerable<VehicleBooking>> GetByUserId(int userId)
+        {
+            return _context.Set<VehicleBooking>()
+                           .Include(booking => booking.User)
+                           .Include(booking => booking.Vehicle)
+                           .Where(x => x.UserId == userId)
+                           .ToList();
+        }
     }
 }

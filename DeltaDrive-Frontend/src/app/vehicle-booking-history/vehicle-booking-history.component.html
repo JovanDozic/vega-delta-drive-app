@@ -1,0 +1,48 @@
+<div class="row">
+    <h2>Booking History</h2>
+    <p>Here you can see all your past bookings.</p>
+</div>
+
+<hr>
+
+<div class="row">
+    <div class="col-6 px-3 py-1" *ngFor="let booking of bookings">
+        <div class="card my-3">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <div style="width: 65%;">
+                    <h5 class="card-title">{{ booking.vehicle.firstName }} {{ booking.vehicle.lastName }}'s <b>{{
+                            booking.vehicle.brand }}</b></h5>
+                    <p class="card-text">
+                        <i class="bi bi-calendar3 me-2"></i>
+                        {{ booking.bookingDate | date:'MMM dd yyyy @ HH:mm' }}
+                        <br>
+                        <i class="bi bi-geo-alt me-2"></i>Start:
+                        ~{{ booking.startLocation.longitude.toFixed(4) }}
+                        <i class="bi bi-arrow-right mx-1"></i>
+                        ~{{booking.startLocation.latitude.toFixed(4) }}
+                        <br>
+                        <i class="bi bi-geo-alt-fill me-2"></i>End:
+                        ~{{ booking.endLocation.longitude.toFixed(4) }}
+                        <i class="bi bi-arrow-right mx-1"></i>
+                        ~{{booking.endLocation.latitude.toFixed(4) }}
+                        <br>
+                        <i class="bi bi-currency-euro me-2"></i>{{ booking.price.toFixed(2) }} EUR
+                        <br>
+                        <i class="bi bi-star me-2"></i>{{ booking.rating || 'No Rating' }}
+                        <br>
+                        <i class="bi bi-question-circle me-2"></i>Status: <span
+                            [class.text-success]="booking.status === 4" [class.text-danger]="booking.status !== 4">{{
+                            booking.status }}</span>
+                    </p>
+                </div>
+                <div>
+                    <button class="btn btn-outline-danger" *ngIf="booking.status !== 4"
+                        (click)="openBookingTracking(booking)">
+                        <i class="bi bi-eye me-2"></i>View
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

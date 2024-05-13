@@ -11,6 +11,12 @@ namespace DeltaDrive.BL.Service
     {
         public async Task<Result<VehicleBookingResponseDto>> SendRequestAsync(VehicleBookingRequestDto request)
         {
+            var bookings = await _unitOfWork.VehicleBookingRepo().GetByUserId(request.UserId);
+            if (bookings.Any(x => x.Status != DA.Contracts.Shared.VehicleBookingStatus.Completed))
+            {
+                return Result.Fail<VehicleBookingResponseDto>(FailureCode.UserAlreadyHasAnActiveBooking);
+            }
+
             await Task.Delay(2000); // Used for simulating
 
             bool isAccepted = SimulateAcceptance();
@@ -27,7 +33,7 @@ namespace DeltaDrive.BL.Service
             // TODO: Set Users location to start location
 
             var vehicle = await _unitOfWork.VehicleRepo().GetByIdAsync(request.VehicleId);
-            //vehicle.IsBooked = true; // TODO: Uncomment this
+            vehicle.IsBooked = true;
             _unitOfWork.VehicleRepo().Update(vehicle);
 
             var booking = await _unitOfWork.VehicleBookingRepo().AddAsync(new VehicleBooking()
@@ -116,14 +122,25 @@ namespace DeltaDrive.BL.Service
             }
         }
 
-        public async Task<Result<VehicleBookingDto>> CompleteBooking(VehicleBookingDto booking)
+        public async Task<Result<VehicleBookingDto>> CompleteBooking(VehicleBookingDto bookingDto)
         {
-            var entity = _mapper.Map<VehicleBookingDto, VehicleBooking>(booking);
+            var booking = _mapper.Map<VehicleBookingDto, VehicleBooking>(bookingDto);
 
-            _unitOfWork.VehicleBookingRepo().Update(entity);
+            _unitOfWork.VehicleBookingRepo().Update(booking);
             await _unitOfWork.SaveAsync();
 
-            return Result.Ok(booking);
+            booking.Vehicle.IsBooked = false;
+            _unitOfWork.VehicleRepo().Update(booking.Vehicle);
+            await _unitOfWork.SaveAsync();
+
+            return Result.Ok(bookingDto);
+        }
+
+        public async Task<IEnumerable<VehicleBookingDto>> GetHistoryAsync(int userId)
+        {
+            var bookings = await _unitOfWork.VehicleBookingRepo().GetByUserId(userId);
+
+            return _mapper.Map<IEnumerable<VehicleBooking>, IEnumerable<VehicleBookingDto>>(bookings);
         }
     }
 }

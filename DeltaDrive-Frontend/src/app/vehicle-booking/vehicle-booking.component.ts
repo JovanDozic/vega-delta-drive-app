@@ -46,6 +46,8 @@ export class VehicleBookingComponent {
   }
 
   sendRequest(vehicle: VehicleSearchResponse) {
+    // TODO: Handle case where user already has a booking (overall: handle all error Result objects correctly)
+
     const request: VehicleBookingRequest = {
       id: -1,
       userId: this.authService.getUserId() ?? -1,
@@ -59,6 +61,8 @@ export class VehicleBookingComponent {
     this.bookingService.sendBookingRequest(request).subscribe((response) => {
       console.log('Booking request sent', response);
       if (response.value != null && response.value.isAccepted) {
+        document.getElementById('cancelButton')?.click();
+
         this.router.navigate([
           '/vehicle-booking-tracking/' + response.value.bookingId,
         ]);
