@@ -65,6 +65,8 @@ export class VehicleBookingTrackingComponent implements OnInit, OnDestroy {
       // As a workaround for the issue with DI on the Backend, we will update the location of the vehicle trough a request from the Frontend - when status changes accordingly.
       // This is not the best solution, but for simulation purposes it will work as proof of concept - as our app does not have second role (driver).
 
+      // TODO: Update vehicle booking status in the backend
+
       if (status == VehicleBookingStatus.WaitingForPassenger) {
         this.vehicleService
           .updateVehicleLocation(this.booking.vehicle)

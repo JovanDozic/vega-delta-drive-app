@@ -6,7 +6,7 @@
 <hr>
 
 <div class="row">
-    <div class="col-6 px-3 py-1" *ngFor="let booking of bookings">
+    <div class="col-md-6 col-lg-4 px-3 py-1" *ngFor="let booking of bookings">
         <div class="card my-3">
             <div class="card-body d-flex align-items-center justify-content-between">
                 <div style="width: 65%;">
@@ -30,9 +30,11 @@
                         <br>
                         <i class="bi bi-star me-2"></i>{{ booking.rating || 'No Rating' }}
                         <br>
-                        <i class="bi bi-question-circle me-2"></i>Status: <span
-                            [class.text-success]="booking.status === 4" [class.text-danger]="booking.status !== 4">{{
-                            booking.status }}</span>
+                        <i class="bi bi-question-circle me-2"></i>Status:
+                        <span [class.text-success]="booking.status === 4" [class.text-danger]="booking.status !== 4">
+                            {{ booking.status }}
+                            <!-- TODO: Write status in words -->
+                        </span>
                     </p>
                 </div>
                 <div>

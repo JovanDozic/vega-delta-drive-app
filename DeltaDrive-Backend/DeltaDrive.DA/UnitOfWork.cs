@@ -32,7 +32,7 @@ namespace DeltaDrive.DA
         {
             if (disposing)
             {
-                _context?.Dispose();
+                _context?.Dispose(); // TODO: add try catch to ignore the error in other generated scopes!
             }
             _context = null;
         }
