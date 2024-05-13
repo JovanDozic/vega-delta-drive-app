@@ -1,0 +1,86 @@
+<div class="row" *ngIf="doesNotExist">
+    <div class="px-4 py-5 my-5 text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="rgb(215, 98, 14)" class="bi bi-x-circle"
+            viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+            <path
+                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+        </svg>
+        <h1 class="display-5 fw-semibold text-body-emphasis mt-3">Ride not found!</h1>
+        <div class="col-lg-6 mx-auto">
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-4">
+                <button type="button" class="btn btn-primary btn-lg px-4 gap-3" routerLink="/vehicle-booking/">Book
+                    another ride</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row display-flex justify-content-center align-items-center" *ngIf="!doesNotExist">
+
+    <div class="col-6 px-3 py-1">
+        <div class="card my-3">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <div style="width: 65%;">
+                    <h5 class="card-title">{{ booking.vehicle.firstName }} {{ booking.vehicle.lastName }}'s <b>{{
+                            booking.vehicle.brand }}</b></h5>
+                    <p class="card-text">
+                        <i class="bi bi-calendar3 me-2"></i>
+                        {{ booking.bookingDate | date:'MMM dd yyyy @ HH:mm' }}
+                        <br>
+                        <i class="bi bi-geo-alt me-2"></i>Start:
+                        ~{{ booking.startLocation.longitude.toFixed(4) }}
+                        <i class="bi bi-arrow-right mx-1"></i>
+                        ~{{booking.startLocation.latitude.toFixed(4) }}
+                        <br>
+                        <i class="bi bi-geo-alt-fill me-2"></i>End:
+                        ~{{ booking.endLocation.longitude.toFixed(4) }}
+                        <i class="bi bi-arrow-right mx-1"></i>
+                        ~{{booking.endLocation.latitude.toFixed(4) }}
+                        <br>
+                        <i class="bi bi-currency-euro me-2"></i>{{ booking.price }} EUR
+                        <br>
+                        <i class="bi bi-star me-2"></i>{{ booking.rating?.rating?.toFixed(1) || 'No Rating'}}
+                        <br>
+                        <i class="bi bi-question-circle me-2"></i>Status:
+                        <span [class.text-success]="booking.status === 4" [class.text-danger]="booking.status !== 4">
+                            {{ getStatusAsString(booking.status) }}
+                            <!-- TODO: Write status in words -->
+                        </span>
+                    </p>
+                </div>
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 px-3 py-1">
+        <form class="my-3" (ngSubmit)="saveRating()">
+
+            <div class="mb-2">
+                <!-- TODO: Add validation -->
+                <label for="rating" class="form-label">Rating (from 1 to 5):</label>
+                <input name="rating" type="text" class="form-control" id="rating" aria-describedby="ratingHelp"
+                    placeholder="Enter rating" [(ngModel)]="this.bookingRating.rating" [disabled]="isAlreadyRated">
+            </div>
+
+            <div class="mb-2">
+                <label for="comment" class="form-label">Comment:</label>
+                <input name="comment" type="text" class="form-control" id="comment"
+                    placeholder="Enter comment (optional)" [(ngModel)]="this.bookingRating.comment"
+                    [disabled]="isAlreadyRated">
+            </div>
+
+            <div class="row my-3">
+                <button type="submit" class="btn btn-outline-success mt-3" *ngIf="!isAlreadyRated">Save a
+                    Rating</button>
+                <button class="btn btn-outline-secondary mt-3" [disabled]="isAlreadyRated" *ngIf="isAlreadyRated">Rating
+                    sent!</button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

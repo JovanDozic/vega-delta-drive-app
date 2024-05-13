@@ -13,6 +13,7 @@ namespace DeltaDrive.DA.Contracts.Model
         public Location StartLocation { get; set; }
         public Location EndLocation { get; set; }
         public float Price { get; set; }
-        public int Rating { get; set; }
+        public int? RatingId { get; set; }
+        public VehicleBookingRating? Rating { get; set; }
     }
 }

@@ -32,7 +32,9 @@ namespace DeltaDrive.DA
         {
             if (disposing)
             {
-                _context?.Dispose(); // TODO: add try catch to ignore the error in other generated scopes!
+                // TODO: check if this works! If something does not update in the database, this could be it.
+                if (_context is null) return;
+                _context?.Dispose();
             }
             _context = null;
         }

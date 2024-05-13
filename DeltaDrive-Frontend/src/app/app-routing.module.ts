@@ -7,6 +7,7 @@ import { VehicleBookingComponent } from './vehicle-booking/vehicle-booking.compo
 import { authGuard } from './auth.guard';
 import { VehicleBookingTrackingComponent } from './vehicle-booking-tracking/vehicle-booking-tracking.component';
 import { VehicleBookingHistoryComponent } from './vehicle-booking-history/vehicle-booking-history.component';
+import { VehicleBookingRatingComponent } from './vehicle-booking-rating/vehicle-booking-rating.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -31,6 +32,12 @@ const routes: Routes = [
   {
     path: 'vehicle-booking-history',
     component: VehicleBookingHistoryComponent,
+    canActivate: [authGuard],
+  },
+
+  {
+    path: 'vehicle-booking-rating/:id',
+    component: VehicleBookingRatingComponent,
     canActivate: [authGuard],
   },
 ];

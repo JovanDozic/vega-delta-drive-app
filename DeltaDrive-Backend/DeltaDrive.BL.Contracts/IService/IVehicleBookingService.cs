@@ -10,5 +10,6 @@ namespace DeltaDrive.BL.Contracts.IService
         public Result<VehicleBookingDto> GetBooking(int id);
         public Task<Result<VehicleBookingDto>> CompleteBooking(VehicleBookingDto booking);
         public Task<IEnumerable<VehicleBookingDto>> GetHistoryAsync(int userId);
+        public Task LeaveARating(VehicleBookingDto bookingDto);
     }
 }

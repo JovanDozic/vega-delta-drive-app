@@ -92,5 +92,13 @@ namespace DeltaDrive.API.Controllers
             var bookings = await _vehicleBookingService.GetHistoryAsync(int.Parse(userId));
             return Ok(bookings);
         }
+
+        [HttpPatch("rate")]
+        [Authorize]
+        public async Task<IActionResult> LeaveARating(VehicleBookingDto bookingDto)
+        {
+            await _vehicleBookingService.LeaveARating(bookingDto);
+            return Ok();
+        }
     }
 }

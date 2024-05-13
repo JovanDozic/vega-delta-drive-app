@@ -13,6 +13,6 @@ namespace DeltaDrive.DA.Contracts.Model
         public double StartPrice { get; set; }
         public double PricePerKm { get; set; }
         public bool? IsBooked { get; set; }
-        public float? Rating { get; set; }
+        public float? Rating { get; set; } // TODO: Calculate average rating from bookings
     }
 }

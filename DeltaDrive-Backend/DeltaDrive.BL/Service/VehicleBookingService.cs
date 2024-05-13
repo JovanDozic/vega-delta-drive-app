@@ -44,7 +44,8 @@ namespace DeltaDrive.BL.Service
                 StartLocation = _mapper.Map<LocationDto, Location>(request.StartLocation),
                 EndLocation = _mapper.Map<LocationDto, Location>(request.EndLocation),
                 Price = 0,
-                Rating = 0,
+                RatingId = null,
+                Rating = null,
             });
 
             await _unitOfWork.SaveAsync();
@@ -106,6 +107,7 @@ namespace DeltaDrive.BL.Service
             return booking;
         }
 
+        // TODO: Why is this here??
         public async Task UpdateVehicle(VehicleDto vehicleDto)
         {
             try
@@ -141,6 +143,14 @@ namespace DeltaDrive.BL.Service
             var bookings = await _unitOfWork.VehicleBookingRepo().GetByUserId(userId);
 
             return _mapper.Map<IEnumerable<VehicleBooking>, IEnumerable<VehicleBookingDto>>(bookings);
+        }
+
+        public async Task LeaveARating(VehicleBookingDto bookingDto)
+        {
+            var booking = _mapper.Map<VehicleBookingDto, VehicleBooking>(bookingDto);
+
+            _unitOfWork.VehicleBookingRepo().Update(booking);
+            await _unitOfWork.SaveAsync();
         }
     }
 }

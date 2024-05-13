@@ -1,5 +1,6 @@
 import { Location } from './location.model';
 import { User } from './user.model';
+import { VehicleBookingRating } from './vehicle-booking-rating.model';
 import { Vehicle } from './vehicle.model';
 
 export interface VehicleBooking {
@@ -12,7 +13,8 @@ export interface VehicleBooking {
   startLocation: Location;
   endLocation: Location;
   price: number;
-  rating: number;
+  ratingId?: number;
+  rating?: VehicleBookingRating;
   status: VehicleBookingStatus;
 }
 

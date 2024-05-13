@@ -9,6 +9,7 @@ namespace DeltaDrive.DA.Contexts
         public DbSet<User> Users { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<VehicleBooking> VehicleBookings { get; set; }
+        public DbSet<VehicleBookingRating> VehicleBookingRatings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -46,6 +47,11 @@ namespace DeltaDrive.DA.Contexts
                     ea.Property(p => p.Latitude).HasColumnName("EndLatitude");
                 });
             });
+
+            modelBuilder.Entity<VehicleBooking>()
+                .HasOne(booking => booking.Rating)
+                .WithMany()
+                .HasForeignKey(booking => booking.RatingId);
 
             modelBuilder.Entity<Vehicle>(entity =>
             {

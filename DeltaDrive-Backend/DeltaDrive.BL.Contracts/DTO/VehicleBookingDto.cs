@@ -11,7 +11,8 @@
         public LocationDto StartLocation { get; set; }
         public LocationDto EndLocation { get; set; }
         public float Price { get; set; }
-        public int Rating { get; set; }
+        public int? RatingId { get; set; }
+        public VehicleBookingRatingDto? Rating { get; set; }
         public VehicleBookingStatus Status { get; set; }
     }
     public enum VehicleBookingStatus

@@ -15,6 +15,7 @@ namespace DeltaDrive.BL.Mapper
             CreateMap<VehicleSearchResponseDto, Vehicle>().ReverseMap();
             CreateMap<LocationDto, DA.Contracts.Model.Location>().ReverseMap();
             CreateMap<VehicleBookingDto, VehicleBooking>().ReverseMap();
+            CreateMap<VehicleBookingRatingDto, VehicleBookingRating>().ReverseMap();
         }
     }
 }

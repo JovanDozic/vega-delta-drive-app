@@ -17,6 +17,7 @@ namespace DeltaDrive.DA.Repository
             return _context.Set<VehicleBooking>()
                            .Include(booking => booking.User)
                            .Include(booking => booking.Vehicle)
+                           .Include(booking => booking.Rating)
                            .FirstOrDefault(x => x.Id == id);
         }
 
@@ -25,6 +26,7 @@ namespace DeltaDrive.DA.Repository
             return _context.Set<VehicleBooking>()
                            .Include(booking => booking.User)
                            .Include(booking => booking.Vehicle)
+                           .Include(booking => booking.Rating)
                            .Where(x => x.UserId == userId)
                            .ToList();
         }

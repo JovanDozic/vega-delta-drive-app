@@ -32,7 +32,6 @@ export class VehicleBookingTrackingComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private bookingService: VehicleBookingService,
-    private authService: AuthenticationService,
     private signalRService: SignalRService,
     private vehicleService: VehicleService
   ) {}
