@@ -99,6 +99,8 @@
             ride to end location</button>
 
         <button class="btn btn-success" disabled *ngIf="this.booking.status == 4">Completed!</button>
+        <button class="btn btn-outline-danger mt-4" *ngIf="this.booking.status == 4" (click)="rateRide()">Rate this
+            ride</button>
     </div>
 
     <hr>

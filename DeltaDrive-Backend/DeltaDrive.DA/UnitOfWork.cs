@@ -32,9 +32,16 @@ namespace DeltaDrive.DA
         {
             if (disposing)
             {
-                // TODO: check if this works! If something does not update in the database, this could be it.
-                if (_context is null) return;
-                _context?.Dispose();
+                try
+                {
+                    // TODO: check if this works! If something does not update in the database, this could be it.
+                    _context?.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Error disposing context in UnitOfWork.");
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                }
             }
             _context = null;
         }

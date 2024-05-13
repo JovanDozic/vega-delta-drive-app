@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { VehicleBookingService } from '../services/vehicle-booking.service';
 import {
   VehicleBooking,
@@ -31,6 +31,7 @@ export class VehicleBookingTrackingComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private bookingService: VehicleBookingService,
     private signalRService: SignalRService,
     private vehicleService: VehicleService
@@ -141,6 +142,10 @@ export class VehicleBookingTrackingComponent implements OnInit, OnDestroy {
       .subscribe((response) => {
         console.log('Ride to end location started', response);
       });
+  }
+
+  rateRide() {
+    this.router.navigate(['/vehicle-booking-rating/' + this.booking.id]);
   }
 
   private updateStatusMessage(status: number) {
