@@ -12,7 +12,6 @@ import { AuthenticationService } from '../../services/authentication/authenticat
 })
 export class LoginComponent {
   authRequest: AuthenticationRequest = {};
-  authResponse: AuthenticationResponse = {};
 
   constructor(
     private router: Router,
@@ -20,13 +19,18 @@ export class LoginComponent {
   ) {}
 
   login() {
-    this.authService.login(this.authRequest).subscribe((response) => {
-      if (response.isSuccess) {
-        this.router.navigate(['/']);
-      } else {
-        console.log(response.reasons?.at(0)?.message);
-        alert('Login failed: ' + response.reasons?.at(0)?.message);
-      }
+    this.authService.login(this.authRequest).subscribe({
+      next: (response: AuthenticationResponse) => {
+        if (response && response.accessToken) {
+          this.router.navigate(['/']);
+        } else {
+          alert('Login failed: Invalid response from server');
+        }
+      },
+      error: (error) => {
+        console.log('Error: ' + error);
+        alert('Oops! ' + error.message);
+      },
     });
   }
 }
