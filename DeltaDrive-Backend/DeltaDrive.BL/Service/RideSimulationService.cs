@@ -3,7 +3,6 @@ using DeltaDrive.BL.Contracts.IService;
 using GeoCoordinatePortable;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NetTopologySuite.Geometries;
 
 namespace DeltaDrive.BL.Service
 {
@@ -37,12 +36,6 @@ namespace DeltaDrive.BL.Service
 
             while (currentPoint.GetDistanceTo(endPoint) > distancePerTick)
             {
-                // TODO: Simulate actual driving
-                // For current testing: driving in a diagonal line
-                // You can do zig-zag or in L, or create actual method that will calculate the line from start to end.
-
-                // TODO: Calculate current price and sent it to the frontend
-
                 double distanceToTravel = Math.Min(distancePerTick, currentPoint.GetDistanceTo(endPoint));
                 double travelFraction = distanceToTravel / currentPoint.GetDistanceTo(endPoint);
 
@@ -64,10 +57,6 @@ namespace DeltaDrive.BL.Service
                 currentPoint.Latitude = vehicle.Location.Y;
                 currentPoint.Longitude = vehicle.Location.X;
 
-                //double distance = CalculateDistance(new Point(vehicle.Location.X, vehicle.Location.Y), new Point(booking.StartLocation.Longitude, booking.StartLocation.Latitude));
-                //double price = vehicle.StartPrice + vehicle.PricePerKm * distance;
-                //45.182899475097656
-                //19.806699752807617
                 // Workaround: we will update vehicle location from the frontend only after every ride status phase (so after driving to start, and driving to end).
                 // Why: In our case, RideSimulationService (injected as HostedService - a singleton) depends on IRideSimulationUpdater (injected as scoped service, as it should be -  it uses DbContext). This creates a problem because scoped service is disposed after the request ends, but singleton is not and it still tries to hold it's reference.
                 // Even tho we already solved the problem of getting booking info with ServiceProvider, we can not update any entity as it's being tracked by another DbContext (the original one).
@@ -102,12 +91,6 @@ namespace DeltaDrive.BL.Service
 
             while (currentPoint.GetDistanceTo(endPoint) > distancePerTick)
             {
-                // TODO: Simulate actual driving
-                // For current testing: driving in a diagonal line
-                // You can do zig-zag or in L, or create actual method that will calculate the line from start to end.
-
-                // TODO: Calculate price and sent it to the frontend
-
                 double distanceToTravel = Math.Min(distancePerTick, currentPoint.GetDistanceTo(endPoint));
                 double travelFraction = distanceToTravel / currentPoint.GetDistanceTo(endPoint);
 
@@ -147,25 +130,6 @@ namespace DeltaDrive.BL.Service
             vehicle.Location.X = booking.EndLocation.Longitude;
 
             await _rideSimulationUpdater.UpdateLocationAsync(booking.Id, VehicleBookingStatus.Completed, vehicle.Location.X, vehicle.Location.Y, currentPrice);
-        }
-
-        public static double CalculateDistance(Point coord1, Point coord2)
-        {
-            var R = 6371;
-            var dLat = ToRadians(coord2.Y - coord1.Y);
-            var dLon = ToRadians(coord2.X - coord1.X);
-            var lat1 = ToRadians(coord1.Y);
-            var lat2 = ToRadians(coord2.Y);
-
-            var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-                    Math.Sin(dLon / 2) * Math.Sin(dLon / 2) * Math.Cos(lat1) * Math.Cos(lat2);
-            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-            return R * c;
-        }
-
-        private static double ToRadians(double angle)
-        {
-            return Math.PI * angle / 180.0;
         }
     }
 }

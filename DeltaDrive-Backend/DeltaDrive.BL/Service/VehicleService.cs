@@ -4,13 +4,14 @@ using DeltaDrive.BL.Contracts.DTO;
 using DeltaDrive.BL.Contracts.IService;
 using DeltaDrive.DA.Contracts;
 using DeltaDrive.DA.Contracts.Model;
+using FluentResults;
 using NetTopologySuite.Geometries;
 
 namespace DeltaDrive.BL.Service
 {
     public class VehicleService(IUnitOfWork unitOfWork, IMapper mapper) : BaseService(unitOfWork, mapper), IVehicleService
     {
-        public PagedResult<VehicleSearchResponseDto> GetAvailableVehicles(VehicleSearchRequestDto request)
+        public Result<PagedResult<VehicleSearchResponseDto>> GetAvailableVehicles(VehicleSearchRequestDto request)
         {
             // TODO: Refactor this code
 
@@ -37,13 +38,13 @@ namespace DeltaDrive.BL.Service
                 vehicle.EstimatedPrice = vehicle.StartPrice + vehicle.PricePerKm * CalculateDistance(startPoint, endPoint);
             }
 
-            return new()
+            return Result.Ok(new PagedResult<VehicleSearchResponseDto>()
             {
                 Results = searchResponse,
                 TotalCount = vehicles.Count,
                 Page = 1,
                 PageSize = vehicles.Count
-            };
+            });
         }
 
 
@@ -90,13 +91,22 @@ namespace DeltaDrive.BL.Service
             return _mapper.Map<Vehicle, VehicleDto>(vehicle);
         }
 
-        public Task UpdateLocation(VehicleDto vehicleDto)
+        public async Task<Result> UpdateLocation(VehicleDto vehicleDto)
         {
-            var vehicle = _mapper.Map<VehicleDto, Vehicle>(vehicleDto);
+            try
+            {
+                var vehicle = _mapper.Map<VehicleDto, Vehicle>(vehicleDto);
 
-            _unitOfWork.VehicleRepo().Update(vehicle);
+                _unitOfWork.VehicleRepo().Update(vehicle);
 
-            return _unitOfWork.SaveAsync();
+                await _unitOfWork.SaveAsync();
+            }
+            catch
+            {
+                return Result.Fail("Failed to update vehicle location.");
+            }
+
+            return Result.Ok();
         }
     }
 }

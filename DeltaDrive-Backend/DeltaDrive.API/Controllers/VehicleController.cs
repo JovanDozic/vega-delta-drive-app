@@ -1,5 +1,4 @@
-﻿using DeltaDrive.BL.Contracts;
-using DeltaDrive.BL.Contracts.DTO;
+﻿using DeltaDrive.BL.Contracts.DTO;
 using DeltaDrive.BL.Contracts.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,16 +13,26 @@ namespace DeltaDrive.API.Controllers
 
         [HttpPost("getAvailable")]
         [Authorize]
-        public PagedResult<VehicleSearchResponseDto> GetAvailableVehicles([FromBody] VehicleSearchRequestDto request)
+        public IActionResult GetAvailableVehicles([FromBody] VehicleSearchRequestDto request)
         {
-            return _vehicleService.GetAvailableVehicles(request);
+            var result = _vehicleService.GetAvailableVehicles(request);
+
+            if (result.IsFailed)
+            {
+                return BadRequest(result.Value);
+            }
+            return Ok(result.Value);
         }
 
         [HttpPatch("updateLocation")]
         [Authorize]
-        public IActionResult UpdateLocation([FromBody] VehicleDto vehicleDto)
+        public async Task<IActionResult> UpdateLocation([FromBody] VehicleDto vehicleDto)
         {
-            _vehicleService.UpdateLocation(vehicleDto);
+            var result = await _vehicleService.UpdateLocation(vehicleDto);
+            if (result.IsSuccess)
+            {
+                return BadRequest(new { Error = result?.Errors.FirstOrDefault().Message });
+            }
             return Ok();
         }
     }
