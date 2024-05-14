@@ -1,5 +1,6 @@
 ﻿using DeltaDrive.API.Hubs;
 using DeltaDrive.BL.Contracts.DTO;
+using DeltaDrive.BL.Contracts.DTO.Model;
 using DeltaDrive.BL.Contracts.IService;
 using FluentResults;
 using Microsoft.AspNetCore.Authorization;

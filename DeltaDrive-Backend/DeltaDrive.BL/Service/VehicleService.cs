@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DeltaDrive.BL.Contracts;
 using DeltaDrive.BL.Contracts.DTO;
+using DeltaDrive.BL.Contracts.DTO.Model;
 using DeltaDrive.BL.Contracts.IService;
 using DeltaDrive.DA.Contracts;
 using DeltaDrive.DA.Contracts.Model;
@@ -13,8 +14,6 @@ namespace DeltaDrive.BL.Service
     {
         public Result<PagedResult<VehicleSearchResponseDto>> GetAvailableVehicles(VehicleSearchRequestDto request)
         {
-            // TODO: Refactor this code
-
             var startPoint = new Point(request.StartLocation.Longitude, request.StartLocation.Latitude)
             { SRID = 4326 };
             var endPoint = new Point(request.EndLocation.Longitude,
@@ -33,9 +32,9 @@ namespace DeltaDrive.BL.Service
 
             foreach (var vehicle in searchResponse)
             {
-                vehicle.DistanceFromPassenger = CalculateDistance(startPoint, new Point(vehicle.Location.X, vehicle.Location.Y));
+                vehicle.DistanceFromPassenger = CalculationHelper.CalculateDistance(startPoint, new Point(vehicle.Location.X, vehicle.Location.Y));
 
-                vehicle.EstimatedPrice = vehicle.StartPrice + vehicle.PricePerKm * CalculateDistance(startPoint, endPoint);
+                vehicle.EstimatedPrice = vehicle.StartPrice + vehicle.PricePerKm * CalculationHelper.CalculateDistance(startPoint, endPoint);
             }
 
             return Result.Ok(new PagedResult<VehicleSearchResponseDto>()
@@ -45,27 +44,6 @@ namespace DeltaDrive.BL.Service
                 Page = 1,
                 PageSize = vehicles.Count
             });
-        }
-
-
-        // TODO: Move this in helper class
-        public static double CalculateDistance(Point coord1, Point coord2)
-        {
-            var R = 6371; // Radius of the Earth in kilometers
-            var dLat = ToRadians(coord2.Y - coord1.Y);
-            var dLon = ToRadians(coord2.X - coord1.X);
-            var lat1 = ToRadians(coord1.Y);
-            var lat2 = ToRadians(coord2.X);
-
-            var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-                    Math.Sin(dLon / 2) * Math.Sin(dLon / 2) * Math.Cos(lat1) * Math.Cos(lat2);
-            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-            return R * c;
-        }
-
-        private static double ToRadians(double angle)
-        {
-            return Math.PI * angle / 180.0;
         }
 
         public async Task UpdateVehicle(VehicleDto vehicleDto)

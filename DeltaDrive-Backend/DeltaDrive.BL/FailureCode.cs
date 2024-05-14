@@ -11,7 +11,6 @@ namespace DeltaDrive.BL
             .WithMetadata("subCode", 2);
         public static readonly IError InvalidCredentials = new Error("Invalid email or password.").WithMetadata("code", 404)
             .WithMetadata("subCode", 2);
-
         public static readonly IError InvalidArgument = new Error("Invalid data supplied.")
             .WithMetadata("code", 400);
         public static readonly IError Forbidden = new Error("Access to resource is restricted.")
@@ -22,10 +21,8 @@ namespace DeltaDrive.BL
             .WithMetadata("code", 409);
         public static readonly IError Internal = new Error("Internal server error.")
             .WithMetadata("code", 500);
-
         public static readonly IError UserAlreadyHasAnActiveBooking = new Error("User already has an active booking.")
             .WithMetadata("code", 400)
             .WithMetadata("subCode", 3);
-
     }
 }

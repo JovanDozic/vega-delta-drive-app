@@ -11,8 +11,6 @@ namespace DeltaDrive.DA.Contracts.Model
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime Birthday { get; set; }
-        public float? Latitude { get; set; }
-        public float? Longitude { get; set; }
 
         public void SecurePassword()
         {

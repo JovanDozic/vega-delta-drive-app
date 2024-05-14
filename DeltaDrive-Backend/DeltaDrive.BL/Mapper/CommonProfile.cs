@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DeltaDrive.BL.Contracts.DTO;
+using DeltaDrive.BL.Contracts.DTO.Model;
 using DeltaDrive.DA.Contracts.Model;
 using NetTopologySuite.Geometries;
 

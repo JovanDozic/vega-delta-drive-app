@@ -7,7 +7,6 @@ namespace DeltaDrive.DA.Contracts
     {
         Task<int> SaveAsync();
 
-        // Repositories:
         public IUserRepo UserRepo();
         public ITokenGeneratorRepo TokenGeneratorRepo();
         public IVehicleRepo VehicleRepo();

@@ -1,4 +1,5 @@
 ﻿using DeltaDrive.BL.Contracts.DTO;
+using DeltaDrive.BL.Contracts.DTO.Model;
 using FluentResults;
 
 namespace DeltaDrive.BL.Contracts.IService

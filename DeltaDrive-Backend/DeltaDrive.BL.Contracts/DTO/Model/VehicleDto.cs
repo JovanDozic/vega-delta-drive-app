@@ -1,4 +1,4 @@
-﻿namespace DeltaDrive.BL.Contracts.DTO
+﻿namespace DeltaDrive.BL.Contracts.DTO.Model
 {
     public class VehicleDto
     {

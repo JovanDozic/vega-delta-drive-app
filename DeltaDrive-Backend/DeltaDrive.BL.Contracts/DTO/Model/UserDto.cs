@@ -1,6 +1,8 @@
 ﻿#nullable disable
 
-namespace DeltaDrive.BL.Contracts.DTO
+using DeltaDrive;
+
+namespace DeltaDrive.BL.Contracts.DTO.Model
 {
     public class UserDto
     {

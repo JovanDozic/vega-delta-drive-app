@@ -57,19 +57,7 @@ namespace DeltaDrive.API.Startup
 
         private static void AddAuthorizationPolicies(IServiceCollection services)
         {
-            // TODO: Add policies here
-
-            //services.AddAuthorizationBuilder()
-            //    .AddPolicy("adminPolicy", policy => policy.RequireRole("admin"));
-
-            ////.AddPolicy("storePolicy", policy => policy.RequireRole("store"));
-            ////.AddPolicy("managerPolicy", policy => policy.RequireRole("manager"))
-            ////.AddPolicy("servicerPolicy", policy => policy.RequireRole("servicer"));
-
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("adminPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "admin"));
-            //});
+            // No need for policies as we do not have different roles or similar.
         }
     }
 }

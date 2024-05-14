@@ -22,11 +22,6 @@
         private static string[] ParseCorsOrigins()
         {
             var corsOrigins = new[] { "http://localhost:4200" };
-            //var corsOriginsPath = Environment.GetEnvironmentVariable("Cors:Origins");
-            //if (File.Exists(corsOriginsPath))
-            //{
-            //    corsOrigins = File.ReadAllLines(corsOriginsPath);
-            //}
             return corsOrigins;
         }
     }

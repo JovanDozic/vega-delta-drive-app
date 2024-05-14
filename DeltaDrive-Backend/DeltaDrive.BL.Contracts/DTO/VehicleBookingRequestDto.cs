@@ -1,4 +1,6 @@
-﻿namespace DeltaDrive.BL.Contracts.DTO
+﻿using DeltaDrive.BL.Contracts.DTO.Model;
+
+namespace DeltaDrive.BL.Contracts.DTO
 {
     public class VehicleBookingRequestDto
     {

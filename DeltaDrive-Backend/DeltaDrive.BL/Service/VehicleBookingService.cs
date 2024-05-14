@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DeltaDrive.BL.Contracts.DTO;
+using DeltaDrive.BL.Contracts.DTO.Model;
 using DeltaDrive.BL.Contracts.IService;
 using DeltaDrive.DA.Contracts;
 using DeltaDrive.DA.Contracts.Model;
@@ -29,8 +30,6 @@ namespace DeltaDrive.BL.Service
                     BookingId = -1,
                 });
             }
-
-            // TODO: Set Users location to start location
 
             var vehicle = await _unitOfWork.VehicleRepo().GetByIdAsync(request.VehicleId);
             vehicle.IsBooked = true;
@@ -80,7 +79,7 @@ namespace DeltaDrive.BL.Service
 
         public static bool SimulateAcceptance()
         {
-            return true; // TODO: Uncomment this: new Random().Next(100) >= 25;
+            return new Random().Next(100) >= 25;
         }
 
         public Result<VehicleBookingDto> GetBooking(int id)
@@ -95,33 +94,6 @@ namespace DeltaDrive.BL.Service
             var response = _mapper.Map<VehicleBooking, VehicleBookingDto>(booking);
 
             return Result.Ok(response);
-        }
-
-        public async Task<VehicleBookingDto> UpdateBookingAsync(VehicleBookingDto booking)
-        {
-            var entity = _mapper.Map<VehicleDto, Vehicle>(booking.Vehicle);
-
-            _unitOfWork.VehicleRepo().Update(entity);
-            await _unitOfWork.SaveAsync();
-
-            return booking;
-        }
-
-        // TODO: Why is this here??
-        public async Task UpdateVehicle(VehicleDto vehicleDto)
-        {
-            try
-            {
-                var vehicle = _mapper.Map<VehicleDto, Vehicle>(vehicleDto);
-
-                _unitOfWork.VehicleRepo().Update(vehicle);
-                await _unitOfWork.SaveAsync();
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.Message);
-                System.Diagnostics.Debug.WriteLine(e.StackTrace);
-            }
         }
 
         public async Task<Result<VehicleBookingDto>> CompleteBooking(VehicleBookingDto bookingDto)

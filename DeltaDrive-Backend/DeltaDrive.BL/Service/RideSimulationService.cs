@@ -1,4 +1,4 @@
-﻿using DeltaDrive.BL.Contracts.DTO;
+﻿using DeltaDrive.BL.Contracts.DTO.Model;
 using DeltaDrive.BL.Contracts.IService;
 using GeoCoordinatePortable;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,59 +19,14 @@ namespace DeltaDrive.BL.Service
             }
         }
 
-        // TODO: Refactor this and the next method as they are mostly the same except current and end points.
         public async Task SimulateRideToStartLocation(int bookingId)
         {
             using var scope = _serviceScopeFactory.CreateScope();
             var vehicleBookingService = scope.ServiceProvider.GetRequiredService<IVehicleBookingService>();
-            //var vehicleService = scope.ServiceProvider.GetRequiredService<IVehicleService>();
             var booking = vehicleBookingService.GetBooking(bookingId).Value;
-            var vehicle = booking.Vehicle;
+            var startPoint = new GeoCoordinate(booking.StartLocation.Latitude, booking.StartLocation.Longitude);
 
-            var currentPoint = new GeoCoordinate(vehicle.Location.Y, vehicle.Location.X);
-            var endPoint = new GeoCoordinate(booking.StartLocation.Latitude, booking.StartLocation.Longitude);
-
-            double speed = 60 * 1000 / 3600;
-            double distancePerTick = speed * 5;
-
-            while (currentPoint.GetDistanceTo(endPoint) > distancePerTick)
-            {
-                double distanceToTravel = Math.Min(distancePerTick, currentPoint.GetDistanceTo(endPoint));
-                double travelFraction = distanceToTravel / currentPoint.GetDistanceTo(endPoint);
-
-                double deltaY = (endPoint.Latitude - currentPoint.Latitude) * travelFraction;
-                double deltaX = (endPoint.Longitude - currentPoint.Longitude) * travelFraction;
-
-                if (Math.Abs(deltaY) > Math.Abs(endPoint.Latitude - currentPoint.Latitude))
-                {
-                    deltaY = endPoint.Latitude - currentPoint.Latitude;
-                }
-                if (Math.Abs(deltaX) > Math.Abs(endPoint.Longitude - currentPoint.Longitude))
-                {
-                    deltaX = endPoint.Longitude - currentPoint.Longitude;
-                }
-
-                vehicle.Location.Y += deltaY;
-                vehicle.Location.X += deltaX;
-
-                currentPoint.Latitude = vehicle.Location.Y;
-                currentPoint.Longitude = vehicle.Location.X;
-
-                // Workaround: we will update vehicle location from the frontend only after every ride status phase (so after driving to start, and driving to end).
-                // Why: In our case, RideSimulationService (injected as HostedService - a singleton) depends on IRideSimulationUpdater (injected as scoped service, as it should be -  it uses DbContext). This creates a problem because scoped service is disposed after the request ends, but singleton is not and it still tries to hold it's reference.
-                // Even tho we already solved the problem of getting booking info with ServiceProvider, we can not update any entity as it's being tracked by another DbContext (the original one).
-                //await vehicleService.UpdateVehicle(vehicle);
-
-                await _rideSimulationUpdater.UpdateLocationAsync(booking.Id, VehicleBookingStatus.DrivingToStartLocation, vehicle.Location.X, vehicle.Location.Y, 0);
-
-                await Task.Delay(1000); // TODO: Change to 5000
-            }
-
-            vehicle.Location.Y = booking.StartLocation.Latitude;
-            vehicle.Location.X = booking.StartLocation.Longitude;
-
-            await _rideSimulationUpdater.UpdateLocationAsync(booking.Id, VehicleBookingStatus.WaitingForPassenger, vehicle.Location.X, vehicle.Location.Y, 0);
-
+            await SimulateRide(bookingId, startPoint, VehicleBookingStatus.DrivingToStartLocation);
         }
 
         public async Task SimulateRideToEndLocation(int bookingId)
@@ -79,10 +34,19 @@ namespace DeltaDrive.BL.Service
             using var scope = _serviceScopeFactory.CreateScope();
             var vehicleBookingService = scope.ServiceProvider.GetRequiredService<IVehicleBookingService>();
             var booking = vehicleBookingService.GetBooking(bookingId).Value;
+            var endPoint = new GeoCoordinate(booking.EndLocation.Latitude, booking.EndLocation.Longitude);
+
+            await SimulateRide(bookingId, endPoint, VehicleBookingStatus.DrivingToEndLocation, distance => booking.Vehicle.StartPrice + booking.Vehicle.PricePerKm * (distance / 1000));
+        }
+
+        private async Task SimulateRide(int bookingId, GeoCoordinate endPoint, VehicleBookingStatus status, Func<double, double>? updatePrice = null)
+        {
+            using var scope = _serviceScopeFactory.CreateScope();
+            var vehicleBookingService = scope.ServiceProvider.GetRequiredService<IVehicleBookingService>();
+            var booking = vehicleBookingService.GetBooking(bookingId).Value;
             var vehicle = booking.Vehicle;
 
             var currentPoint = new GeoCoordinate(vehicle.Location.Y, vehicle.Location.X);
-            var endPoint = new GeoCoordinate(booking.EndLocation.Latitude, booking.EndLocation.Longitude);
 
             double speed = 60 * 1000 / 3600;
             double distancePerTick = speed * 5;
@@ -112,24 +76,22 @@ namespace DeltaDrive.BL.Service
                 currentPoint.Latitude = vehicle.Location.Y;
                 currentPoint.Longitude = vehicle.Location.X;
 
-                double currentDistance = initialDistance - currentPoint.GetDistanceTo(endPoint);
-                currentPrice = vehicle.StartPrice + vehicle.PricePerKm * (currentDistance / 1000);
+                if (updatePrice != null)
+                {
+                    double currentDistance = initialDistance - currentPoint.GetDistanceTo(endPoint);
+                    currentPrice = updatePrice(currentDistance);
+                }
 
-                // TODO: Fix this workaround
-                // Workaround: we will update vehicle location from the frontend only after every ride status phase (so after driving to start, and driving to end).
-                // Why: RideSimulationService is an background service injected as HostedService - basically a singleton, so it can not use same DbContext as the rest of the app.
-                // Even tho we already solved the problem of getting booking info with ServiceProvider, we can not update any entity as it's being tracked by another DbContext (the original one).
-                //await vehicleService.UpdateVehicle(vehicle);
+                await _rideSimulationUpdater.UpdateLocationAsync(booking.Id, status, vehicle.Location.X, vehicle.Location.Y, currentPrice);
 
-                await _rideSimulationUpdater.UpdateLocationAsync(booking.Id, VehicleBookingStatus.DrivingToStartLocation, vehicle.Location.X, vehicle.Location.Y, currentPrice);
-
-                await Task.Delay(1000); // TODO: Change to 5000
+                await Task.Delay(5000);
             }
 
-            vehicle.Location.Y = booking.EndLocation.Latitude;
-            vehicle.Location.X = booking.EndLocation.Longitude;
+            vehicle.Location.Y = endPoint.Latitude;
+            vehicle.Location.X = endPoint.Longitude;
 
-            await _rideSimulationUpdater.UpdateLocationAsync(booking.Id, VehicleBookingStatus.Completed, vehicle.Location.X, vehicle.Location.Y, currentPrice);
+            var finalStatus = status == VehicleBookingStatus.DrivingToStartLocation ? VehicleBookingStatus.WaitingForPassenger : VehicleBookingStatus.Completed;
+            await _rideSimulationUpdater.UpdateLocationAsync(booking.Id, finalStatus, vehicle.Location.X, vehicle.Location.Y, currentPrice);
         }
     }
 }

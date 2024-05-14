@@ -7,8 +7,6 @@ namespace DeltaDrive.DA.Repository
 {
     public class VehicleRepo(DbContext context) : Repository<Vehicle>(context), IVehicleRepo
     {
-        //private readonly GeometryFactory _geometryFactory;
-
         public DataContext Context
         {
             get { return _context as DataContext; }

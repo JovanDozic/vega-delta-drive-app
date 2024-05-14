@@ -22,7 +22,6 @@ namespace DeltaDrive.DA.Repository.Authentication
                 new(ClaimTypes.Email, user.Email),
                 new(ClaimTypes.GivenName, user.FirstName),
                 new(ClaimTypes.Surname, user.LastName),
-                //new(ClaimTypes.Role, user.GetRoleName())
             };
 
             var jwt = CreateToken(claims, 60 * 24);

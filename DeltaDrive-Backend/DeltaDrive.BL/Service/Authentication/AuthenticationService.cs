@@ -39,12 +39,10 @@ namespace DeltaDrive.BL.Service.Authentication
                 Password = request.Password
             };
 
-            // TODO: Data validation goes here (unique email, password complexity, etc.)
             if (await _unitOfWork.UserRepo().ExistByEmail(user.Email))
             {
                 return Result.Fail(FailureCode.NonUniqueEmail);
             }
-
             if (!user.Validate())
             {
                 return Result.Fail(FailureCode.InvalidArgument);

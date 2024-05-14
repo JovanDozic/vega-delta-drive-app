@@ -1,4 +1,5 @@
 ﻿using DeltaDrive.BL.Contracts.DTO;
+using DeltaDrive.BL.Contracts.DTO.Model;
 using DeltaDrive.BL.Contracts.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,7 @@ namespace DeltaDrive.API.Controllers
             var result = await _vehicleService.UpdateLocation(vehicleDto);
             if (result.IsSuccess)
             {
-                return BadRequest(new { Error = result?.Errors.FirstOrDefault().Message });
+                return BadRequest(new { Error = result?.Errors?.FirstOrDefault()?.Message });
             }
             return Ok();
         }

@@ -5,7 +5,6 @@ namespace DeltaDrive.DA.Contexts
 {
     public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
     {
-        // Database Sets:
         public DbSet<User> Users { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<VehicleBooking> VehicleBookings { get; set; }
@@ -13,12 +12,6 @@ namespace DeltaDrive.DA.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // FK Example:
-            //modelBuilder.Entity<User>()
-            //    .HasOne(user => user.Role)
-            //    .WithMany()
-            //    .HasForeignKey(user => user.RoleId);
-
             modelBuilder.Entity<User>()
                 .HasIndex(user => user.Email)
                 .IsUnique();
