@@ -19,6 +19,7 @@ import { AuthInterceptor } from './auth.interceptor';
 import { VehicleBookingTrackingComponent } from './vehicle-booking-tracking/vehicle-booking-tracking.component';
 import { VehicleBookingHistoryComponent } from './vehicle-booking-history/vehicle-booking-history.component';
 import { VehicleBookingRatingComponent } from './vehicle-booking-rating/vehicle-booking-rating.component';
+import { MapComponent } from './common/map/map.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { VehicleBookingRatingComponent } from './vehicle-booking-rating/vehicle-
     VehicleBookingTrackingComponent,
     VehicleBookingHistoryComponent,
     VehicleBookingRatingComponent,
+    MapComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [
