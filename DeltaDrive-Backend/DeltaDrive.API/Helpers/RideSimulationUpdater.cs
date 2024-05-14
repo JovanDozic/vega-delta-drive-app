@@ -9,9 +9,9 @@ namespace DeltaDrive.API.Helpers
     {
         private readonly IHubContext<VehicleLocationHub> _hubContext = hubContext;
 
-        public async Task UpdateLocationAsync(int bookingId, VehicleBookingStatus status, double latitude, double longitude)
+        public async Task UpdateLocationAsync(int bookingId, VehicleBookingStatus status, double latitude, double longitude, double currentPrice)
         {
-            await _hubContext.Clients.All.SendAsync("ReceiveLocation", bookingId, status, latitude, longitude);
+            await _hubContext.Clients.All.SendAsync("ReceiveLocation", bookingId, status, latitude, longitude, currentPrice);
         }
     }
 }

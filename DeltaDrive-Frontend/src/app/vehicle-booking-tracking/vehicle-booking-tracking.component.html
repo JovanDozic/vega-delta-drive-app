@@ -118,8 +118,11 @@
     <hr>
 
     <div class="row">
-        <div class="col-12">
+        <div class="col-6">
             <h5>Status:</h5> {{statusMessage}}
+        </div>
+        <div class="col-6">
+            <h5><span *ngIf="!isCompleted">Current </span>Price: {{this.booking.price.toFixed(2)}}</h5>
         </div>
     </div>
 </div>

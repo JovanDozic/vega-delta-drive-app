@@ -34,6 +34,7 @@ namespace DeltaDrive.DA
             {
                 try
                 {
+                    if (_context is null) throw new Exception("Context is null in UnitOfWork.Dispose().");
                     // TODO: check if this works! If something does not update in the database, this could be it.
                     _context?.Dispose();
                 }

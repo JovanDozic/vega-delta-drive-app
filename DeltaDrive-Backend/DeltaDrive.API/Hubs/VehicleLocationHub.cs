@@ -5,9 +5,9 @@ namespace DeltaDrive.API.Hubs
 {
     public class VehicleLocationHub : Hub
     {
-        public async Task SendLocation(string vehicleId, VehicleBookingStatus statusCode, double latitude, double longitude)
+        public async Task SendLocation(string vehicleId, VehicleBookingStatus statusCode, double latitude, double longitude, double currentPrice)
         {
-            await Clients.All.SendAsync("ReceiveLocation", vehicleId, statusCode, latitude, longitude);
+            await Clients.All.SendAsync("ReceiveLocation", vehicleId, statusCode, latitude, longitude, currentPrice);
         }
     }
 }

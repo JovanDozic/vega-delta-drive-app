@@ -4,6 +4,6 @@ namespace DeltaDrive.BL.Contracts.IService
 {
     public interface IRideSimulationUpdater
     {
-        Task UpdateLocationAsync(int bookingId, VehicleBookingStatus status, double latitude, double longitude);
+        Task UpdateLocationAsync(int bookingId, VehicleBookingStatus status, double latitude, double longitude, double currentPrice);
     }
 }

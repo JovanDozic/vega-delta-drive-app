@@ -24,13 +24,14 @@ export class SignalRService {
       id: number,
       status: number,
       lat: number,
-      long: number
+      long: number,
+      currentPrice: number
     ) => void
   ) => {
     this.hubConnection?.on(
       'ReceiveLocation',
-      (bookingId, status, longitude, latitude) => {
-        updateLocation(bookingId, status, longitude, latitude);
+      (bookingId, status, longitude, latitude, currentPrice) => {
+        updateLocation(bookingId, status, longitude, latitude, currentPrice);
       }
     );
   };

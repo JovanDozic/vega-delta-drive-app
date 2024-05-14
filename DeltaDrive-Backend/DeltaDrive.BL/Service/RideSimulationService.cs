@@ -3,6 +3,7 @@ using DeltaDrive.BL.Contracts.IService;
 using GeoCoordinatePortable;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NetTopologySuite.Geometries;
 
 namespace DeltaDrive.BL.Service
 {
@@ -72,7 +73,7 @@ namespace DeltaDrive.BL.Service
                 // Even tho we already solved the problem of getting booking info with ServiceProvider, we can not update any entity as it's being tracked by another DbContext (the original one).
                 //await vehicleService.UpdateVehicle(vehicle);
 
-                await _rideSimulationUpdater.UpdateLocationAsync(booking.Id, VehicleBookingStatus.DrivingToStartLocation, vehicle.Location.X, vehicle.Location.Y);
+                await _rideSimulationUpdater.UpdateLocationAsync(booking.Id, VehicleBookingStatus.DrivingToStartLocation, vehicle.Location.X, vehicle.Location.Y, 0);
 
                 await Task.Delay(1000); // TODO: Change to 5000
             }
@@ -80,7 +81,7 @@ namespace DeltaDrive.BL.Service
             vehicle.Location.Y = booking.StartLocation.Latitude;
             vehicle.Location.X = booking.StartLocation.Longitude;
 
-            await _rideSimulationUpdater.UpdateLocationAsync(booking.Id, VehicleBookingStatus.WaitingForPassenger, vehicle.Location.X, vehicle.Location.Y);
+            await _rideSimulationUpdater.UpdateLocationAsync(booking.Id, VehicleBookingStatus.WaitingForPassenger, vehicle.Location.X, vehicle.Location.Y, 0);
 
             scope.Dispose();
         }
@@ -97,6 +98,8 @@ namespace DeltaDrive.BL.Service
 
             double speed = 60 * 1000 / 3600;
             double distancePerTick = speed * 5;
+            double initialDistance = currentPoint.GetDistanceTo(endPoint);
+            double currentPrice = 0;
 
             while (currentPoint.GetDistanceTo(endPoint) > distancePerTick)
             {
@@ -127,13 +130,16 @@ namespace DeltaDrive.BL.Service
                 currentPoint.Latitude = vehicle.Location.Y;
                 currentPoint.Longitude = vehicle.Location.X;
 
+                double currentDistance = initialDistance - currentPoint.GetDistanceTo(endPoint);
+                currentPrice = vehicle.StartPrice + vehicle.PricePerKm * (currentDistance / 1000);
+
                 // TODO: Fix this workaround
                 // Workaround: we will update vehicle location from the frontend only after every ride status phase (so after driving to start, and driving to end).
                 // Why: RideSimulationService is an background service injected as HostedService - basically a singleton, so it can not use same DbContext as the rest of the app.
                 // Even tho we already solved the problem of getting booking info with ServiceProvider, we can not update any entity as it's being tracked by another DbContext (the original one).
                 //await vehicleService.UpdateVehicle(vehicle);
 
-                await _rideSimulationUpdater.UpdateLocationAsync(booking.Id, VehicleBookingStatus.DrivingToStartLocation, vehicle.Location.X, vehicle.Location.Y);
+                await _rideSimulationUpdater.UpdateLocationAsync(booking.Id, VehicleBookingStatus.DrivingToStartLocation, vehicle.Location.X, vehicle.Location.Y, currentPrice);
 
                 await Task.Delay(1000); // TODO: Change to 5000
             }
@@ -141,9 +147,28 @@ namespace DeltaDrive.BL.Service
             vehicle.Location.Y = booking.EndLocation.Latitude;
             vehicle.Location.X = booking.EndLocation.Longitude;
 
-            await _rideSimulationUpdater.UpdateLocationAsync(booking.Id, VehicleBookingStatus.Completed, vehicle.Location.X, vehicle.Location.Y);
+            await _rideSimulationUpdater.UpdateLocationAsync(booking.Id, VehicleBookingStatus.Completed, vehicle.Location.X, vehicle.Location.Y, currentPrice);
 
             scope.Dispose();
+        }
+
+        public static double CalculateDistance(Point coord1, Point coord2)
+        {
+            var R = 6371;
+            var dLat = ToRadians(coord2.Y - coord1.Y);
+            var dLon = ToRadians(coord2.X - coord1.X);
+            var lat1 = ToRadians(coord1.Y);
+            var lat2 = ToRadians(coord2.Y);
+
+            var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                    Math.Sin(dLon / 2) * Math.Sin(dLon / 2) * Math.Cos(lat1) * Math.Cos(lat2);
+            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            return R * c;
+        }
+
+        private static double ToRadians(double angle)
+        {
+            return Math.PI * angle / 180.0;
         }
     }
 }
