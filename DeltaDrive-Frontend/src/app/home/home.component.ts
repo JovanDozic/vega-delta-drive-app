@@ -10,7 +10,7 @@ import { Location } from '../model/location.model';
 export class HomeComponent {
   loginMessage: string = '';
   isLoggedIn: boolean = false;
-  location: Location = { latitude: 45.267136, longitude: 19.833549 };
+  // location: Location = { latitude: 45.267136, longitude: 19.833549 };
 
   constructor(private authService: AuthenticationService) {
     this.authService.isLoggedIn.subscribe((isLoggedIn) => {
@@ -21,10 +21,10 @@ export class HomeComponent {
     });
   }
 
-  onCoordinatesChanged(event: { lng: number; lat: number }) {
-    this.location.latitude = event.lat;
-    this.location.longitude = event.lng;
-  }
+  // onCoordinatesChanged(event: { lng: number; lat: number }) {
+  //   this.location.latitude = event.lat;
+  //   this.location.longitude = event.lng;
+  // }
 
   logout() {
     this.authService.logout();

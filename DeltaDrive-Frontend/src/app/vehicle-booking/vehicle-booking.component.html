@@ -11,14 +11,19 @@
             <div class="mb-2">
                 <label for="currentLongitude" class="form-label">Current Longitude</label>
                 <input name="currentLongitude" type="text" class="form-control" id="currentLongitude"
-                    aria-describedby="currentLongitudeHelp" [(ngModel)]="search.startLocation.longitude">
+                    aria-describedby="currentLongitudeHelp" [(ngModel)]="search.startLocation.longitude" disabled>
             </div>
             <div class="mb-2">
                 <label for="currentLatitude" class="form-label">Current Latitude</label>
                 <input name="currentLatitude" type="text" class="form-control" id="currentLatitude"
-                    aria-describedby="currentLatitudeHelp" [(ngModel)]="search.startLocation.latitude">
+                    aria-describedby="currentLatitudeHelp" [(ngModel)]="search.startLocation.latitude" disabled>
             </div>
         </form>
+
+        <div class="map-container px-1 mt-3">
+            <app-map [lat]="search.startLocation.latitude" [lng]="search.startLocation.longitude" [clickable]="true"
+                [containerId]="'start-map'" (coordinatesChanged)="onStartLocationChanged($event)"></app-map>
+        </div>
 
     </div>
     <div class="col-6">
@@ -29,14 +34,19 @@
             <div class="mb-2">
                 <label for="destinationLongitude" class="form-label">Destination Longitude</label>
                 <input name="destinationLongitude" type="text" class="form-control" id="destinationLongitude"
-                    aria-describedby="destinationLongitudeHelp" [(ngModel)]="search.endLocation.longitude">
+                    aria-describedby="destinationLongitudeHelp" [(ngModel)]="search.endLocation.longitude" disabled>
             </div>
             <div class="mb-2">
                 <label for="destinationLatitude" class="form-label">Destination Latitude</label>
                 <input name="destinationLatitude" type="text" class="form-control" id="destinationLatitude"
-                    aria-describedby="destinationLatitudeHelp" [(ngModel)]="search.endLocation.latitude">
+                    aria-describedby="destinationLatitudeHelp" [(ngModel)]="search.endLocation.latitude" disabled>
             </div>
         </form>
+
+        <div class="map-container px-1 mt-3">
+            <app-map [lat]="search.endLocation.latitude" [lng]="search.endLocation.longitude" [clickable]="true"
+                [containerId]="'end-map'" (coordinatesChanged)="onEndLocationChanged($event)"></app-map>
+        </div>
 
     </div>
 </div>

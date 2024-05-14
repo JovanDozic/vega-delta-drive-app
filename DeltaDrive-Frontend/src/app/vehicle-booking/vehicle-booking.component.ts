@@ -17,12 +17,12 @@ import { Router } from '@angular/router';
 export class VehicleBookingComponent {
   search: VehicleSearchRequest = {
     startLocation: {
-      latitude: 0,
-      longitude: 0,
+      latitude: 45.267136,
+      longitude: 19.833549,
     },
     endLocation: {
-      latitude: 0,
-      longitude: 0,
+      latitude: 45.24489120437491,
+      longitude: 19.84202556231395,
     },
   };
   availableVehicles: VehicleSearchResponse[] = [];
@@ -34,6 +34,16 @@ export class VehicleBookingComponent {
     private authService: AuthenticationService,
     private router: Router
   ) {}
+
+  onStartLocationChanged(event: { lng: number; lat: number }) {
+    this.search.startLocation.latitude = event.lat;
+    this.search.startLocation.longitude = event.lng;
+  }
+
+  onEndLocationChanged(event: { lng: number; lat: number }) {
+    this.search.endLocation.latitude = event.lat;
+    this.search.endLocation.longitude = event.lng;
+  }
 
   findVehicles() {
     this.availableVehicles = [];

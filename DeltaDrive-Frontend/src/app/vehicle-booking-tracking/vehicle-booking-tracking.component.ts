@@ -19,8 +19,8 @@ import { VehicleService } from '../services/vehicle.service';
 export class VehicleBookingTrackingComponent implements OnInit, OnDestroy {
   id: number = -1;
   booking: VehicleBooking = {
-    startLocation: {},
-    endLocation: {},
+    startLocation: { latitude: 0, longitude: 0 },
+    endLocation: { latitude: 0, longitude: 0 },
     vehicle: { location: { x: 0, y: 0 } },
   } as VehicleBooking;
   isCompleted: boolean = false;
@@ -146,6 +146,21 @@ export class VehicleBookingTrackingComponent implements OnInit, OnDestroy {
 
   rateRide() {
     this.router.navigate(['/vehicle-booking-rating/' + this.booking.id]);
+  }
+
+  onVehicleLocationChanged(event: { lng: number; lat: number }) {
+    this.booking.vehicle.location.y = event.lat;
+    this.booking.vehicle.location.x = event.lng;
+  }
+
+  onStartLocationChanged(event: { lng: number; lat: number }) {
+    this.booking.startLocation.latitude = event.lat;
+    this.booking.startLocation.longitude = event.lng;
+  }
+
+  onEndLocationChanged(event: { lng: number; lat: number }) {
+    this.booking.startLocation.latitude = event.lat;
+    this.booking.startLocation.longitude = event.lng;
   }
 
   private updateStatusMessage(status: number) {

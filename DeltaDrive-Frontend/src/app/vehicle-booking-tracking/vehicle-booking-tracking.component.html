@@ -57,6 +57,10 @@
                     id="currentVehicleLatitude" aria-describedby="currentVehicleLatitudeHelp"
                     [(ngModel)]="vehicle.location.y">
             </div>
+            <div class="map-container px-1 mt-3">
+                <app-map [lat]="vehicle.location.y" [lng]="vehicle.location.x" [clickable]="false"
+                    [containerId]="'vehicle-map'"></app-map>
+            </div>
         </div>
         <div class="col-4">
             <h5>Start location</h5>
@@ -70,6 +74,10 @@
                 <input disabled name="currentStartLatitude" type="text" class="form-control" id="currentStartLatitude"
                     aria-describedby="currentStartLatitudeHelp" [(ngModel)]="booking.startLocation.latitude">
             </div>
+            <div class="map-container px-1 mt-3">
+                <app-map [lat]="booking.startLocation.latitude" [lng]="booking.startLocation.longitude"
+                    [clickable]="false" [containerId]="'start-map'"></app-map>
+            </div>
         </div>
         <div class="col-4">
             <h5>End location</h5>
@@ -82,6 +90,10 @@
                 <label for="currentEndLatitude" class="form-label">Latitude</label>
                 <input disabled name="currentEndLatitude" type="text" class="form-control" id="currentEndLatitude"
                     aria-describedby="currentEndLatitudeHelp" [(ngModel)]="booking.endLocation.latitude">
+            </div>
+            <div class="map-container px-1 mt-3">
+                <app-map [lat]="booking.endLocation.latitude" [lng]="booking.endLocation.longitude" [clickable]="false"
+                    [containerId]="'end-map'"></app-map>
             </div>
         </div>
     </div>
