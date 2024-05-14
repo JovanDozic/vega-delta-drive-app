@@ -80,7 +80,7 @@ namespace DeltaDrive.BL.Service
 
         public static bool SimulateAcceptance()
         {
-            return new Random().Next(100) >= 25;
+            return true; // TODO: Uncomment this: new Random().Next(100) >= 25;
         }
 
         public Result<VehicleBookingDto> GetBooking(int id)

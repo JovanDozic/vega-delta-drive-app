@@ -29,8 +29,8 @@ export class SignalRService {
   ) => {
     this.hubConnection?.on(
       'ReceiveLocation',
-      (bookingId, status, latitude, longitude) => {
-        updateLocation(bookingId, status, latitude, longitude);
+      (bookingId, status, longitude, latitude) => {
+        updateLocation(bookingId, status, longitude, latitude);
       }
     );
   };

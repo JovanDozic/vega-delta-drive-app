@@ -42,6 +42,7 @@ export class VehicleBookingComponent {
       .getAvailableVehicles(this.search)
       .subscribe((response) => {
         this.availableVehicles = response.results;
+        console.log('Available vehicles', this.availableVehicles);
       });
   }
 

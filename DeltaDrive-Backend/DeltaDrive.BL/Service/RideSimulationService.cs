@@ -31,28 +31,44 @@ namespace DeltaDrive.BL.Service
             var currentPoint = new GeoCoordinate(vehicle.Location.Y, vehicle.Location.X);
             var endPoint = new GeoCoordinate(booking.StartLocation.Latitude, booking.StartLocation.Longitude);
 
-            //double speed = 60 * 1000 / 3600;
-            //double distancePerTick = speed * 5;
+            double speed = 60 * 1000 / 3600;
+            double distancePerTick = speed * 5;
 
-            double thresholdDistance = 10.0;
-
-            while (currentPoint.GetDistanceTo(endPoint) > thresholdDistance)
+            while (currentPoint.GetDistanceTo(endPoint) > distancePerTick)
             {
                 // TODO: Simulate actual driving
                 // For current testing: driving in a diagonal line
                 // You can do zig-zag or in L, or create actual method that will calculate the line from start to end.
 
-                // TODO: Calculate price and sent it to the frontend
+                // TODO: Calculate current price and sent it to the frontend
 
-                vehicle.Location.Y += 0.1;
-                vehicle.Location.X += 0.1;
+                double distanceToTravel = Math.Min(distancePerTick, currentPoint.GetDistanceTo(endPoint));
+                double travelFraction = distanceToTravel / currentPoint.GetDistanceTo(endPoint);
+
+                double deltaY = (endPoint.Latitude - currentPoint.Latitude) * travelFraction;
+                double deltaX = (endPoint.Longitude - currentPoint.Longitude) * travelFraction;
+
+                if (Math.Abs(deltaY) > Math.Abs(endPoint.Latitude - currentPoint.Latitude))
+                {
+                    deltaY = endPoint.Latitude - currentPoint.Latitude;
+                }
+                if (Math.Abs(deltaX) > Math.Abs(endPoint.Longitude - currentPoint.Longitude))
+                {
+                    deltaX = endPoint.Longitude - currentPoint.Longitude;
+                }
+
+                vehicle.Location.Y += deltaY;
+                vehicle.Location.X += deltaX;
 
                 currentPoint.Latitude = vehicle.Location.Y;
                 currentPoint.Longitude = vehicle.Location.X;
 
-                // TODO: Fix this workaround
+                //double distance = CalculateDistance(new Point(vehicle.Location.X, vehicle.Location.Y), new Point(booking.StartLocation.Longitude, booking.StartLocation.Latitude));
+                //double price = vehicle.StartPrice + vehicle.PricePerKm * distance;
+                //45.182899475097656
+                //19.806699752807617
                 // Workaround: we will update vehicle location from the frontend only after every ride status phase (so after driving to start, and driving to end).
-                // Why: RideSimulationService is an background service injected as HostedService - basically a singleton, so it can not use same DbContext as the rest of the app.
+                // Why: In our case, RideSimulationService (injected as HostedService - a singleton) depends on IRideSimulationUpdater (injected as scoped service, as it should be -  it uses DbContext). This creates a problem because scoped service is disposed after the request ends, but singleton is not and it still tries to hold it's reference.
                 // Even tho we already solved the problem of getting booking info with ServiceProvider, we can not update any entity as it's being tracked by another DbContext (the original one).
                 //await vehicleService.UpdateVehicle(vehicle);
 
@@ -65,6 +81,8 @@ namespace DeltaDrive.BL.Service
             vehicle.Location.X = booking.StartLocation.Longitude;
 
             await _rideSimulationUpdater.UpdateLocationAsync(booking.Id, VehicleBookingStatus.WaitingForPassenger, vehicle.Location.X, vehicle.Location.Y);
+
+            scope.Dispose();
         }
 
         public async Task SimulateRideToEndLocation(int bookingId)
@@ -77,12 +95,10 @@ namespace DeltaDrive.BL.Service
             var currentPoint = new GeoCoordinate(vehicle.Location.Y, vehicle.Location.X);
             var endPoint = new GeoCoordinate(booking.EndLocation.Latitude, booking.EndLocation.Longitude);
 
-            //double speed = 60 * 1000 / 3600;
-            //double distancePerTick = speed * 5;
+            double speed = 60 * 1000 / 3600;
+            double distancePerTick = speed * 5;
 
-            double thresholdDistance = 10.0;
-
-            while (currentPoint.GetDistanceTo(endPoint) > thresholdDistance)
+            while (currentPoint.GetDistanceTo(endPoint) > distancePerTick)
             {
                 // TODO: Simulate actual driving
                 // For current testing: driving in a diagonal line
@@ -90,8 +106,23 @@ namespace DeltaDrive.BL.Service
 
                 // TODO: Calculate price and sent it to the frontend
 
-                vehicle.Location.Y += 0.1;
-                vehicle.Location.X += 0.1;
+                double distanceToTravel = Math.Min(distancePerTick, currentPoint.GetDistanceTo(endPoint));
+                double travelFraction = distanceToTravel / currentPoint.GetDistanceTo(endPoint);
+
+                double deltaY = (endPoint.Latitude - currentPoint.Latitude) * travelFraction;
+                double deltaX = (endPoint.Longitude - currentPoint.Longitude) * travelFraction;
+
+                if (Math.Abs(deltaY) > Math.Abs(endPoint.Latitude - currentPoint.Latitude))
+                {
+                    deltaY = endPoint.Latitude - currentPoint.Latitude;
+                }
+                if (Math.Abs(deltaX) > Math.Abs(endPoint.Longitude - currentPoint.Longitude))
+                {
+                    deltaX = endPoint.Longitude - currentPoint.Longitude;
+                }
+
+                vehicle.Location.Y += deltaY;
+                vehicle.Location.X += deltaX;
 
                 currentPoint.Latitude = vehicle.Location.Y;
                 currentPoint.Longitude = vehicle.Location.X;
@@ -111,6 +142,8 @@ namespace DeltaDrive.BL.Service
             vehicle.Location.X = booking.EndLocation.Longitude;
 
             await _rideSimulationUpdater.UpdateLocationAsync(booking.Id, VehicleBookingStatus.Completed, vehicle.Location.X, vehicle.Location.Y);
+
+            scope.Dispose();
         }
     }
 }

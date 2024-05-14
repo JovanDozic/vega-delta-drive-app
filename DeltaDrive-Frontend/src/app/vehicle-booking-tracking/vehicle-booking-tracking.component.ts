@@ -51,8 +51,8 @@ export class VehicleBookingTrackingComponent implements OnInit, OnDestroy {
   initSignalR() {
     if (this.doesNotExist) return;
     this.signalRService.startConnection();
-    this.signalRService.addLocationListener((id, status, lat, long) => {
-      // console.log('Received location', id, status, lat, long);
+    this.signalRService.addLocationListener((id, status, long, lat) => {
+      console.log('Received location', id, status, long, lat);
       if (this.booking.id != id) {
         throw new Error('Invalid booking ID');
       }
