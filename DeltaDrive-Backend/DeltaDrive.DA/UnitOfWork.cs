@@ -19,7 +19,7 @@ namespace DeltaDrive.DA
 
         public UnitOfWork(DataContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public void Dispose()
@@ -32,19 +32,23 @@ namespace DeltaDrive.DA
         {
             if (disposing)
             {
-                try
+                if (_context != null)
                 {
-                    if (_context is null) throw new Exception("Context is null in UnitOfWork.Dispose().");
-                    // TODO: check if this works! If something does not update in the database, this could be it.
-                    _context?.Dispose();
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("Error disposing context in UnitOfWork.");
-                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                    try
+                    {
+                        _context?.Dispose();
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Error disposing context in UnitOfWork.");
+                        System.Diagnostics.Debug.WriteLine(ex.Message);
+                    }
+                    finally
+                    {
+                        _context = null;
+                    }
                 }
             }
-            _context = null;
         }
 
         public async Task<int> SaveAsync()

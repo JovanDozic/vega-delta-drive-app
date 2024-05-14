@@ -25,10 +25,10 @@ namespace DeltaDrive.API.Startup
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IVehicleService, VehicleService>();
             services.AddScoped<IVehicleBookingService, VehicleBookingService>();
-            services.AddScoped<IRideSimulationService, RideSimulationService>();
-            services.AddSingleton<IRideSimulationUpdater, RideSimulationUpdater>();
 
+            services.AddSingleton<IRideSimulationUpdater, RideSimulationUpdater>();
             services.AddHostedService<RideSimulationService>();
+            services.AddScoped<IRideSimulationService, RideSimulationService>();
         }
 
         // [AUTO MAPPERS]

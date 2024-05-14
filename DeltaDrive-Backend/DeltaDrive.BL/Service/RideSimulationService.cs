@@ -83,7 +83,6 @@ namespace DeltaDrive.BL.Service
 
             await _rideSimulationUpdater.UpdateLocationAsync(booking.Id, VehicleBookingStatus.WaitingForPassenger, vehicle.Location.X, vehicle.Location.Y, 0);
 
-            scope.Dispose();
         }
 
         public async Task SimulateRideToEndLocation(int bookingId)
@@ -148,8 +147,6 @@ namespace DeltaDrive.BL.Service
             vehicle.Location.X = booking.EndLocation.Longitude;
 
             await _rideSimulationUpdater.UpdateLocationAsync(booking.Id, VehicleBookingStatus.Completed, vehicle.Location.X, vehicle.Location.Y, currentPrice);
-
-            scope.Dispose();
         }
 
         public static double CalculateDistance(Point coord1, Point coord2)

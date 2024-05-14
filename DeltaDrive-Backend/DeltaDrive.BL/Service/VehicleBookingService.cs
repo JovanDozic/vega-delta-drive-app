@@ -150,6 +150,21 @@ namespace DeltaDrive.BL.Service
             var booking = _mapper.Map<VehicleBookingDto, VehicleBooking>(bookingDto);
 
             _unitOfWork.VehicleBookingRepo().Update(booking);
+
+            if (booking.Rating is not null)
+            {
+                var vehicle = await _unitOfWork.VehicleRepo().GetByIdAsync(booking.VehicleId);
+                if (vehicle.Rating is null || vehicle.Rating == 0)
+                {
+                    vehicle.Rating = booking.Rating.Rating;
+                }
+                else
+                {
+                    vehicle.Rating = (vehicle.Rating + booking.Rating.Rating) / 2;
+                }
+                _unitOfWork.VehicleRepo().Update(vehicle);
+            }
+
             await _unitOfWork.SaveAsync();
         }
     }
