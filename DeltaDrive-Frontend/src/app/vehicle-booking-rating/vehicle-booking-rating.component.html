@@ -45,7 +45,6 @@
                         <i class="bi bi-question-circle me-2"></i>Status:
                         <span [class.text-success]="booking.status === 4" [class.text-danger]="booking.status !== 4">
                             {{ getStatusAsString(booking.status) }}
-                            <!-- TODO: Write status in words -->
                         </span>
                     </p>
                 </div>
@@ -59,7 +58,6 @@
         <form class="my-3" (ngSubmit)="saveRating()">
 
             <div class="mb-2">
-                <!-- TODO: Add validation -->
                 <label for="rating" class="form-label">Rating (from 1 to 5):</label>
                 <input name="rating" type="text" class="form-control" id="rating" aria-describedby="ratingHelp"
                     placeholder="Enter rating" [(ngModel)]="this.bookingRating.rating" [disabled]="isAlreadyRated">
@@ -73,7 +71,8 @@
             </div>
 
             <div class="row my-3">
-                <button type="submit" class="btn btn-outline-success mt-3" *ngIf="!isAlreadyRated">Save a
+                <button type="submit" class="btn btn-outline-success mt-3" *ngIf="!isAlreadyRated"
+                    [disabled]="!isRatingValid">Save a
                     Rating</button>
                 <button class="btn btn-outline-secondary mt-3" [disabled]="isAlreadyRated" *ngIf="isAlreadyRated">Rating
                     sent!</button>

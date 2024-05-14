@@ -71,6 +71,8 @@
             </div>
             <div class="modal-body">
 
+                <div class="d-flex justify-content-center"><span class="loader" *ngIf="isLoading"></span></div>
+
                 <div class="card my-3" *ngFor="let vehicle of availableVehicles">
                     <div class="card-body d-flex align-items-center justify-content-between">
                         <div style="width: 65%;">
@@ -78,7 +80,6 @@
                             </h5>
                             <p class="card-text">
                                 <i class="bi bi-geo-alt me-2"></i>~{{vehicle.distanceFromPassenger.toFixed(2)}} km away
-                                <!-- TODO -->
                                 <br>
                                 <i class="bi bi-play me-2"></i>{{vehicle.startPrice.toFixed(2)}} EUR Starting Price
                                 <br>
@@ -89,7 +90,7 @@
                                 <br><br>
                                 <i class="bi bi-tag me-2"></i>Estimated Price: <span
                                     class="text-primary">~{{vehicle.estimatedPrice.toFixed(2)}}
-                                    EUR</span> <!-- TODO -->
+                                    EUR</span>
                             </p>
                         </div>
                         <button class="btn btn-outline-primary" (click)="sendRequest(vehicle)"

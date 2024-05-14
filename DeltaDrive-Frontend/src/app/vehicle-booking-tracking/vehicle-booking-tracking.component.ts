@@ -38,9 +38,6 @@ export class VehicleBookingTrackingComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // TODO: Handle error when user tries to access the page without an ID
-    // TODO: Handle error when user tries to view someone else's booking
-
     this.fetchBookingDetails();
   }
 

@@ -18,6 +18,9 @@ export class VehicleBookingRatingComponent implements OnInit {
   isAlreadyRated: boolean = false;
   booking: VehicleBooking = {} as VehicleBooking;
   bookingRating: VehicleBookingRating = {} as VehicleBookingRating;
+  get isRatingValid(): boolean {
+    return this.bookingRating.rating >= 1 && this.bookingRating.rating <= 5;
+  }
 
   constructor(
     private route: ActivatedRoute,
@@ -56,7 +59,6 @@ export class VehicleBookingRatingComponent implements OnInit {
   }
 
   saveRating() {
-    // TODO: Add validation
     this.booking.rating = this.bookingRating;
     this.bookingService.updateBooking(this.booking).subscribe(
       (response) => {
@@ -82,7 +84,7 @@ export class VehicleBookingRatingComponent implements OnInit {
       case VehicleBookingStatus.Completed:
         return 'Completed';
       default:
-        return 'Unknown Status'; // In case there's an undefined status
+        return 'Unknown Status';
     }
   }
 }

@@ -26,14 +26,13 @@
                         <i class="bi bi-arrow-right mx-1"></i>
                         ~{{booking.endLocation.latitude.toFixed(4) }}
                         <br>
-                        <i class="bi bi-currency-euro me-2"></i>{{ booking.price.toFixed(2) }} EUR
+                        <i class="bi bi-currency-euro me-2"></i>{{ booking.price }} EUR
                         <br>
-                        <i class="bi bi-star me-2"></i>{{ booking.rating || 'No Rating' }}
+                        <i class="bi bi-star me-2"></i>{{ booking.rating?.rating || 'No Rating'}}
                         <br>
                         <i class="bi bi-question-circle me-2"></i>Status:
                         <span [class.text-success]="booking.status === 4" [class.text-danger]="booking.status !== 4">
-                            {{ booking.status }}
-                            <!-- TODO: Write status in words -->
+                            {{ getStatusAsString(booking.status) }}
                         </span>
                     </p>
                 </div>

@@ -26,7 +26,7 @@ export class VehicleBookingComponent {
     },
   };
   availableVehicles: VehicleSearchResponse[] = [];
-  // TODO: Add loading boolean
+  isLoading: boolean = false;
 
   constructor(
     private vehicleService: VehicleService,
@@ -46,19 +46,18 @@ export class VehicleBookingComponent {
   }
 
   findVehicles() {
+    this.isLoading = true;
     this.availableVehicles = [];
-
     this.vehicleService
       .getAvailableVehicles(this.search)
       .subscribe((response) => {
         this.availableVehicles = response.results;
         console.log('Available vehicles', this.availableVehicles);
+        this.isLoading = false;
       });
   }
 
   sendRequest(vehicle: VehicleSearchResponse) {
-    // TODO: Handle case where user already has a booking (overall: handle all error Result objects correctly)
-
     const request: VehicleBookingRequest = {
       id: -1,
       userId: this.authService.getUserId() ?? -1,
@@ -84,7 +83,9 @@ export class VehicleBookingComponent {
         );
         vehicle.didDecline = true;
       } else {
-        alert('Booking request failed. Please try again.');
+        alert(
+          'Booking request failed. If you do not have any booking already, please try again.'
+        );
       }
     });
   }
