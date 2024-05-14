@@ -137,7 +137,6 @@ namespace DeltaDrive.DA.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Comment")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("Rating")

@@ -18,13 +18,19 @@ export class RegistrationComponent {
   ) {}
 
   register() {
-    this.authService.register(this.regRequest).subscribe((response) => {
-      if (response.isSuccess) {
-        alert('Account created successfully!');
-        this.router.navigate(['/']);
-      } else {
-        alert('Failed to create account: ' + response.reasons?.at(0)?.message);
-      }
+    this.authService.register(this.regRequest).subscribe({
+      next: (response: any) => {
+        if (response) {
+          alert('Account created successfully!');
+          this.router.navigate(['/']);
+        } else {
+          alert('Failed to create account: Invalid response from server');
+        }
+      },
+      error: (error) => {
+        console.log('Error: ' + error.message);
+        alert('Oops! Validation error! Check your inputs and try again.');
+      },
     });
   }
 }

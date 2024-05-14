@@ -45,16 +45,19 @@ export class AuthenticationService {
       );
   }
 
-  register(regRequest: RegisterRequest): Observable<any> {
+  register(regRequest: RegisterRequest): Observable<boolean> {
     return this.http
-      .post<Result<any>>(
-        `${environment.apiHost}/Authentication/register`,
-        regRequest,
-        { observe: 'response' }
-      )
+      .post(`${environment.apiHost}/Authentication/register`, regRequest, {
+        observe: 'response',
+      })
       .pipe(
-        tap(),
-        map((response) => response.body),
+        tap((response) => {
+          if (response.status === 201 || response.status === 200) {
+            return true;
+          }
+          return false;
+        }, catchError(this.handleError)),
+        map(() => true),
         catchError(this.handleError)
       );
   }
@@ -73,6 +76,8 @@ export class AuthenticationService {
       // Server-side error
       if (error.status === 401) {
         errorMessage = 'Invalid credentials';
+      } else if (error.status === 400) {
+        errorMessage = error.error.message;
       } else {
         errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
       }

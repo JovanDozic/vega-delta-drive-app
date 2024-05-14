@@ -1,7 +1,7 @@
 import csv
 
 def convert_csv_to_sql(csv_filepath, sql_filepath1, sql_filepath2):
-    sql_insert_template = """INSERT INTO Vehicles (Brand, FirstName, LastName, Location, StartPrice, PricePerKm, IsBooked, Rating) VALUES (%s, %s, %s, ST_PointFromText('POINT(%s %s)'), %s, %s, NULL, NULL);"""
+    sql_insert_template = """INSERT INTO Vehicles (Brand, FirstName, LastName, Location, StartPrice, PricePerKm, IsBooked, Rating) VALUES (%s, %s, %s, ST_PointFromText('POINT(%s %s)'), %s, %s, 0, NULL);"""
 
     with open(csv_filepath, 'r', newline='', encoding='utf-8') as csv_file:
         reader = csv.reader(csv_file)
